@@ -16,10 +16,16 @@ public class GameView {
         gameFrame = new JPanel();
         gameFrame.setLayout(new BorderLayout());
         gameFrame.setSize(800,600);
-        gameFrame.setBackground(Color.BLACK);
 
+        canvas = new Canvas();
+        canvas.setPreferredSize(new Dimension(800,600));
+
+        gameFrame.add(canvas);
     }
     public JPanel getGameView(){
         return gameFrame;
+    }
+    public Canvas getGameCanvas(){
+        return canvas;
     }
 }

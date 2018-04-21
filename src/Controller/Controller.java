@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Model;
 import View.GameView;
 import View.StartMenuView;
 import View.View;
@@ -12,7 +13,9 @@ public class Controller implements Runnable {
     GameView gameView;
     StartMenuView startMenuView;
     View view;
+    Model model;
     public Controller(){
+        this.model = new Model();
         this.view = new View();
         this.startMenuView = new StartMenuView();
         this.gameView = new GameView();
@@ -24,6 +27,7 @@ public class Controller implements Runnable {
         gameView.createGameView();
         view.changeView(startMenuView.getStartMenuView());
         addActionListenersToStartMenu();
+        System.out.println("Totalt antal trådar innan game skapas: "+java.lang.Thread.activeCount());
     }
 
     /**
@@ -41,6 +45,7 @@ public class Controller implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             view.changeView(gameView.getGameView());
+            model.initGame(gameView.getGameCanvas());
         }
     }
 
