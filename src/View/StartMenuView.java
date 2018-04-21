@@ -122,8 +122,9 @@ public class StartMenuView {
     public void addPlayButtonActionListener(ActionListener actionListener){
         playButton.addActionListener(actionListener);
     }
-
-
+    public void addExitButtonActionListener(ActionListener actionListener){
+        exitButton.addActionListener(actionListener);
+    }
     /**
      * Graphical stuff for the buttons.
      */
@@ -135,7 +136,6 @@ public class StartMenuView {
         }
         @Override
         public void mouseClicked(MouseEvent e) {
-
         }
 
         @Override
@@ -145,7 +145,7 @@ public class StartMenuView {
 
         @Override
         public void mouseReleased(MouseEvent e) {
-
+            button.setFont(normalButtonFont);
         }
 
         @Override

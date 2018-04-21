@@ -27,7 +27,7 @@ public class Controller implements Runnable {
         gameView.createGameView();
         view.changeView(startMenuView.getStartMenuView());
         addActionListenersToStartMenu();
-        System.out.println("Totalt antal trådar innan game skapas: "+java.lang.Thread.activeCount());
+        addActionListenersToGameMenus();
     }
 
     /**
@@ -35,10 +35,13 @@ public class Controller implements Runnable {
      */
     private void addActionListenersToStartMenu(){
         startMenuView.addPlayButtonActionListener(new PlayButtonListener());
+        startMenuView.addExitButtonActionListener(new ExitButtonListener());
     }
-
+    private void addActionListenersToGameMenus(){
+        gameView.addActionListernerToExitButton(new ExitGameViewButtonListener());
+    }
     /**
-     * Actionlistener for the play button. Starts the game.
+     * ActionListener for the play button. Starts the game.
      */
     private class PlayButtonListener implements ActionListener{
 
@@ -46,6 +49,28 @@ public class Controller implements Runnable {
         public void actionPerformed(ActionEvent e) {
             view.changeView(gameView.getGameView());
             model.initGame(gameView.getGameCanvas());
+        }
+    }
+    /**
+     * Actionlistener for the exit button. Exits the game.
+     */
+    private class ExitButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            System.exit(0);
+        }
+    }
+    /**
+     * ActionListener for exit button in game view, takes the user back to the main menu.
+     */
+    private class ExitGameViewButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            model.exitGame();
+            System.out.println(java.lang.Thread.activeCount());
+            view.changeView(startMenuView.getStartMenuView());
         }
     }
 

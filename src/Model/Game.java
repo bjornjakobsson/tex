@@ -7,9 +7,11 @@ public class Game implements Runnable{
 
     private Canvas canvas;
     private Thread thread;
-    private boolean running = true;
+    private boolean running = false;
     private BufferStrategy bs;
     private Graphics g;
+    int x;
+    int y;
 
     @Override
     public void run() {
@@ -20,7 +22,6 @@ public class Game implements Runnable{
         long lastTime = System.nanoTime();
         long timer = 0;
         int ticks = 0;
-
         while (running) {
             now = System.nanoTime();
             delta += (now - lastTime) / timePerTick;
@@ -43,12 +44,19 @@ public class Game implements Runnable{
 
     }
     public synchronized void start(Canvas canvas){
+        x=0;
+        y=0;
+        running=true;
         this.canvas = canvas;
         thread = new Thread(this);
         thread.start();
     }
     public synchronized void stop(){
         running=false;
+        if(!running){
+            return;
+        }
+
         try {
             thread.join();
         } catch (InterruptedException e) {
@@ -57,7 +65,9 @@ public class Game implements Runnable{
         }
     }
     public void tick(){
-
+        x++;
+        y++;
+        if(y>400){y=0;x=0;}
     }
     public void render(){
         bs = canvas.getBufferStrategy();
@@ -69,9 +79,18 @@ public class Game implements Runnable{
 
         g.clearRect(0,0,800,600);
 
+        g.drawRect(x,y,100,100);
+
         bs.show();
         g.dispose();
 
 
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+    public boolean getRunning(){
+        return running;
     }
 }

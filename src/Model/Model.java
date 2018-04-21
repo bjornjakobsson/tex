@@ -10,6 +10,14 @@ public class Model {
     }
 
     public void initGame(Canvas canvas){
-            game.start(canvas);
+            if(!game.getRunning()){
+                game.start(canvas);
+            }else {
+                System.out.println("HASD");
+            }
+
+    }
+    public void exitGame(){
+            game.stop();
     }
 }
