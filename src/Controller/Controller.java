@@ -49,6 +49,14 @@ public class Controller implements Runnable {
         public void actionPerformed(ActionEvent e) {
             view.changeView(gameView.getGameView());
             model.initGame(gameView.getGameCanvas());
+            // This means that the gui doesnt run on the same thread
+            // as the game graphics.
+            try {
+                Thread.sleep(2000);
+                System.out.println("asd");
+            } catch (InterruptedException exc) {
+                exc.printStackTrace();
+            }
         }
     }
     /**

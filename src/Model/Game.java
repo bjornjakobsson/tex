@@ -15,7 +15,7 @@ public class Game implements Runnable{
 
     @Override
     public void run() {
-        int fps = 60;
+        int fps = 500;
         double timePerTick = 1000000000 / fps;
         double delta = 0;
         long now;
@@ -36,6 +36,8 @@ public class Game implements Runnable{
 
             }
             if (timer >= 1000000000) {
+                x++;
+                y++;
                 ticks = 0;
                 timer = 0;
             }
@@ -65,8 +67,6 @@ public class Game implements Runnable{
         }
     }
     public void tick(){
-        x++;
-        y++;
         if(y>400){y=0;x=0;}
     }
     public void render(){
