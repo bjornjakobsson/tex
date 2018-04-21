@@ -2,19 +2,24 @@ package View;
 
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class GameView {
-    private JFrame gameFrame;
-
-    public GameView(){
-        gameFrame = new JFrame();
+    private JPanel gameFrame;
+    private Canvas canvas;
+    public void createGameView(){
+        initGameView();
+    }
+    private void initGameView(){
+        gameFrame = new JPanel();
         gameFrame.setLayout(new BorderLayout());
-        gameFrame.setTitle("Game");
         gameFrame.setSize(800,600);
-        gameFrame.setLocationRelativeTo(null);
-        gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        gameFrame.setResizable(false);
-        gameFrame.setVisible(true);
+        gameFrame.setBackground(Color.BLACK);
+
+    }
+    public JPanel getGameView(){
+        return gameFrame;
     }
 }

@@ -13,7 +13,7 @@ import static javax.swing.text.StyleConstants.Italic;
 
 public class StartMenuView {
     //Panels
-    private JFrame startMenuFrame;
+    private JPanel startMenuFrame;
     private JPanel bufferPanelLeft;
     private JPanel bufferPanelRight;
     private JPanel buttonPanel;
@@ -46,18 +46,14 @@ public class StartMenuView {
      * center panel contains the menu buttons.
      */
     private void initStartMenuFrame(){
-        startMenuFrame = new JFrame();
+        startMenuFrame = new JPanel();
         startMenuFrame.setLayout(new BorderLayout());
-        startMenuFrame.setTitle("Texas hold'em");
         startMenuFrame.setSize(800,600);
-        startMenuFrame.setLocationRelativeTo(null);
-        startMenuFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        startMenuFrame.setResizable(false);
         startMenuFrame.add(bufferPanelLeft, BorderLayout.WEST);
         startMenuFrame.add(buttonPanel, BorderLayout.CENTER);
         startMenuFrame.add(bufferPanelRight, BorderLayout.EAST);
 
-        startMenuFrame.setVisible(true);
+        //startMenuFrame.setVisible(true);
     }
 
     /**
@@ -117,7 +113,6 @@ public class StartMenuView {
 
     public void closeMenuFrame(){
         startMenuFrame.setVisible(false);
-        startMenuFrame.dispose();
     }
 
     /**
@@ -163,5 +158,7 @@ public class StartMenuView {
             button.setFont(normalButtonFont);
         }
     }
-
+    public JPanel getStartMenuView(){
+        return startMenuFrame;
+    }
 }
