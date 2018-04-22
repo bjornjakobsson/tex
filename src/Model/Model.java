@@ -4,18 +4,21 @@ import java.awt.*;
 
 public class Model {
     private Game game;
+    private Settings settings;
 
     public Model(){
         this.game = new Game();
     }
 
-    public void initGame(Canvas canvas){
+    /**
+     * Starts a new game. Should load settings to game aswell.
+     * @param canvas
+     */
+    public void initGame(Canvas canvas, Settings settings){
             if(!game.getRunning()){
                 game.start(canvas);
-            }else {
-                System.out.println("HASD");
+                game.setSettings(settings);
             }
-
     }
     public void exitGame(){
             game.stop();

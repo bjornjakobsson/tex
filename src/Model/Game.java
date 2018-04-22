@@ -4,18 +4,24 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable{
-
+    //GFX
     private Canvas canvas;
-    private Thread thread;
-    private boolean running = false;
     private BufferStrategy bs;
     private Graphics g;
-    int x;
-    int y;
+
+    //Threading
+    private Thread thread;
+    private boolean running = false;
+
+    //Game world
+    private Settings settings;
+    private World world;
+    private int width=800;
+    private int height=600;
 
     @Override
     public void run() {
-        int fps = 500;
+        int fps = 60;
         double timePerTick = 1000000000 / fps;
         double delta = 0;
         long now;
@@ -36,8 +42,6 @@ public class Game implements Runnable{
 
             }
             if (timer >= 1000000000) {
-                x++;
-                y++;
                 ticks = 0;
                 timer = 0;
             }
@@ -46,10 +50,9 @@ public class Game implements Runnable{
 
     }
     public synchronized void start(Canvas canvas){
-        x=0;
-        y=0;
         running=true;
         this.canvas = canvas;
+        world = new World(settings);
         thread = new Thread(this);
         thread.start();
     }
@@ -67,7 +70,7 @@ public class Game implements Runnable{
         }
     }
     public void tick(){
-        if(y>400){y=0;x=0;}
+        world.tick();
     }
     public void render(){
         bs = canvas.getBufferStrategy();
@@ -77,9 +80,8 @@ public class Game implements Runnable{
         }
         g = bs.getDrawGraphics();
 
-        g.clearRect(0,0,800,600);
-
-        g.drawRect(x,y,100,100);
+        g.clearRect(0,0,width,height);
+        world.render(g);
 
         bs.show();
         g.dispose();
@@ -92,5 +94,12 @@ public class Game implements Runnable{
     }
     public boolean getRunning(){
         return running;
+    }
+    /**
+     * Sets the settings for the game.
+     * @param settings
+     */
+    public void setSettings(Settings settings){
+        this.settings = settings;
     }
 }

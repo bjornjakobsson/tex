@@ -1,15 +1,17 @@
 package Controller;
 
 import Model.Model;
+import Model.Settings;
 import View.GameView;
 import View.StartMenuView;
 import View.View;
+import View.SettingsView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Controller implements Runnable {
-
+    private SettingsView settingsView;
     private GameView gameView;
     private StartMenuView startMenuView;
     private View view;
@@ -25,12 +27,14 @@ public class Controller implements Runnable {
         this.view = new View(width, height);
         this.startMenuView = new StartMenuView(width, height);
         this.gameView = new GameView(width, height);
+        this.settingsView = new SettingsView(width,height);
 
     }
     @Override
     public void run() {
         startMenuView.createAndShowStartMenuFrame();
         gameView.createGameView();
+        settingsView.createSettingsView();
         view.changeView(startMenuView.getStartMenuView());
         addActionListenersToStartMenu();
         addActionListenersToGameMenus();
@@ -42,6 +46,7 @@ public class Controller implements Runnable {
     private void addActionListenersToStartMenu(){
         startMenuView.addPlayButtonActionListener(new PlayButtonListener());
         startMenuView.addExitButtonActionListener(new ExitButtonListener());
+        startMenuView.addSettingsButtonActionListener(new SettingsButtonListener());
     }
     private void addActionListenersToGameMenus(){
         gameView.addActionListernerToExitButton(new ExitGameViewButtonListener());
@@ -54,15 +59,10 @@ public class Controller implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             view.changeView(gameView.getGameView());
-            model.initGame(gameView.getGameCanvas());
-            /*// This means that the gui doesnt run on the same thread
-            // as the game graphics.
-            try {
-                Thread.sleep(2000);
-                System.out.println("asd");
-            } catch (InterruptedException exc) {
-                exc.printStackTrace();
-            }*/
+            Settings settings = new Settings();
+            model.initGame(gameView.getGameCanvas(), settings);
+            //Uppdatera settings här till model som sen
+            // skickas till game klassen.
         }
     }
     /**
@@ -85,6 +85,13 @@ public class Controller implements Runnable {
             model.exitGame();
             System.out.println(java.lang.Thread.activeCount());
             view.changeView(startMenuView.getStartMenuView());
+        }
+    }
+    private class SettingsButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            view.changeView(settingsView.getSettingsView());
         }
     }
 

@@ -40,13 +40,10 @@ public class StartMenuView {
      * Creates and shows the start menu frame.
      */
     public void createAndShowStartMenuFrame(){
-
         initButtons();
         initBufferPanels();
         initButtonPanel();
         initStartMenuFrame();
-
-        System.out.println("View thread: "+java.lang.Thread.currentThread().getId());
     }
 
     /**
@@ -75,7 +72,6 @@ public class StartMenuView {
         bufferPanelRight.setPreferredSize(new Dimension(width/3,height));
         bufferPanelLeft.setPreferredSize(new Dimension(width/3,height));
     }
-
     /**
      * Initiates the button panel. This panel holds all the buttons for the menu.
      */
@@ -90,7 +86,6 @@ public class StartMenuView {
         buttonPanel.add(howToPlayButton);
         buttonPanel.add(exitButton);
     }
-
     /**
      * Initiates the buttons, sets fonts, size etc.
      */
@@ -119,13 +114,11 @@ public class StartMenuView {
             button.addMouseListener(new ButtonGraphicEffects(button));
         }
     }
-
     public void closeMenuFrame(){
         startMenuFrame.setVisible(false);
     }
-
     /**
-     * Adds an actionListener to the play button
+     * Adds an actionListener to the buttons
      * @param actionListener
      */
     public void addPlayButtonActionListener(ActionListener actionListener){
@@ -133,6 +126,9 @@ public class StartMenuView {
     }
     public void addExitButtonActionListener(ActionListener actionListener){
         exitButton.addActionListener(actionListener);
+    }
+    public void addSettingsButtonActionListener(ActionListener actionListener){
+        settingsButton.addActionListener(actionListener);
     }
     /**
      * Graphical stuff for the buttons.
