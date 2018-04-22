@@ -7,7 +7,12 @@ public class View {
     private JFrame frame;
     private JPanel currentPanel;
 
-    public View(){
+    private int width;
+    private int height;
+
+    public View(int width, int height){
+        this.width = width;
+        this.height = height;
         initViewFrame();
         frame.setVisible(true);
     }
@@ -18,7 +23,7 @@ public class View {
         frame = new JFrame();
         frame.setLayout(new BorderLayout());
         frame.setTitle("Texas hold'em");
-        frame.setSize(800,600);
+        frame.setSize(width,height);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);

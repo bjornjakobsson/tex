@@ -27,6 +27,15 @@ public class StartMenuView {
     //Font  for the buttons
     private Font normalButtonFont = new Font("Italic", BOLD, 30);
     private Font largerButtonFont = new Font("Italic", BOLD, 40);
+
+    //Dimensions
+    private int width;
+    private int height;
+
+    public StartMenuView(int width,int height){
+        this.width = width;
+        this.height = height;
+    }
     /**
      * Creates and shows the start menu frame.
      */
@@ -48,7 +57,7 @@ public class StartMenuView {
     private void initStartMenuFrame(){
         startMenuFrame = new JPanel();
         startMenuFrame.setLayout(new BorderLayout());
-        startMenuFrame.setSize(800,600);
+        startMenuFrame.setSize(width,height);
         startMenuFrame.add(bufferPanelLeft, BorderLayout.WEST);
         startMenuFrame.add(buttonPanel, BorderLayout.CENTER);
         startMenuFrame.add(bufferPanelRight, BorderLayout.EAST);
@@ -63,8 +72,8 @@ public class StartMenuView {
     private void initBufferPanels(){
         bufferPanelRight = new JPanel();
         bufferPanelLeft = new JPanel();
-        bufferPanelRight.setPreferredSize(new Dimension(265,600));
-        bufferPanelLeft.setPreferredSize(new Dimension(265,600));
+        bufferPanelRight.setPreferredSize(new Dimension(width/3,height));
+        bufferPanelLeft.setPreferredSize(new Dimension(width/3,height));
     }
 
     /**
@@ -73,7 +82,7 @@ public class StartMenuView {
     private void initButtonPanel(){
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(4,1,0,0));
-        buttonPanel.setPreferredSize(new Dimension(266,600));
+        buttonPanel.setPreferredSize(new Dimension(width/3,height));
         buttonPanel.setVisible(true);
 
         buttonPanel.add(playButton);

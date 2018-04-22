@@ -10,15 +10,21 @@ import java.awt.event.ActionListener;
 
 public class Controller implements Runnable {
 
-    GameView gameView;
-    StartMenuView startMenuView;
-    View view;
-    Model model;
-    public Controller(){
+    private GameView gameView;
+    private StartMenuView startMenuView;
+    private View view;
+    private Model model;
+    private int width;
+    private int height;
+
+
+    public Controller(int width, int height){
+        this.width = width;
+        this.height = height;
         this.model = new Model();
-        this.view = new View();
-        this.startMenuView = new StartMenuView();
-        this.gameView = new GameView();
+        this.view = new View(width, height);
+        this.startMenuView = new StartMenuView(width, height);
+        this.gameView = new GameView(width, height);
 
     }
     @Override
@@ -49,14 +55,14 @@ public class Controller implements Runnable {
         public void actionPerformed(ActionEvent e) {
             view.changeView(gameView.getGameView());
             model.initGame(gameView.getGameCanvas());
-            // This means that the gui doesnt run on the same thread
+            /*// This means that the gui doesnt run on the same thread
             // as the game graphics.
             try {
                 Thread.sleep(2000);
                 System.out.println("asd");
             } catch (InterruptedException exc) {
                 exc.printStackTrace();
-            }
+            }*/
         }
     }
     /**

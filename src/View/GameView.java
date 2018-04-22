@@ -28,6 +28,16 @@ public class GameView {
     //Fonts
     private Font normalButtonFont = new Font("Italic", BOLD, 20);
     private Font largerButtonFont = new Font("Italic", BOLD, 30);
+
+    //Dimensions
+    private int width;
+    private int height;
+
+    public GameView(int width, int height){
+        this.width = width;
+        this.height = height;
+    }
+
     public void createGameView(){
         initButtons();
         initButtonPanel();
@@ -48,11 +58,11 @@ public class GameView {
         gameFrame = new JPanel();
         gameFrame.setLayout(new BorderLayout());
 
-        gameFrame.setSize(800,600);
+        gameFrame.setSize(width,height);
         gameFrame.setBackground(Color.BLUE);
 
         canvas = new Canvas();
-        canvas.setPreferredSize(new Dimension(100,100));
+        canvas.setPreferredSize(new Dimension(width,height-(height/6)));
         canvas.setBackground(Color.PINK);
     }
 
@@ -61,7 +71,7 @@ public class GameView {
      */
     private void initBottomMenu(){
         bottomMenu = new JPanel();
-        bottomMenu.setPreferredSize(new Dimension(800,100));
+        bottomMenu.setPreferredSize(new Dimension(width,height/6));
         bottomMenu.setLayout(new BorderLayout());
     }
 
@@ -71,7 +81,7 @@ public class GameView {
     private void initButtonPanel(){
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(2,1,0,0));
-        buttonPanel.setPreferredSize(new Dimension(100,100));
+        buttonPanel.setPreferredSize(new Dimension(width/10,height/6));
 
         buttonPanel.add(muteButton);
         buttonPanel.add(exitButton);
@@ -82,13 +92,14 @@ public class GameView {
      */
     private void initInfoPanel(){
         infoPanel = new JPanel();
-        infoPanel.setPreferredSize(new Dimension(700,100));
+        infoPanel.setPreferredSize(new Dimension(width- (width/8),height/6));
         infoPanel.setBackground(Color.RED);
     }
     /**
      * Initiates the side menu buttons.
      */
     private void initButtons(){
+
         LinkedList<JButton> buttonPanelButtons = new LinkedList<>();
 
         exitButton = new JButton("Exit");
