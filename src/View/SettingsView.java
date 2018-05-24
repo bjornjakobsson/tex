@@ -1,14 +1,27 @@
 package View;
 
-import sun.awt.image.ImageWatched;
-
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.LinkedList;
 
 import static java.awt.Font.BOLD;
 
 public class SettingsView {
+    //Enum for bot diff
+    private enum Difficulty{
+        Easy, Medium, Hard, Expert{
+        };
+        public Difficulty next() {
+            return values()[ordinal() + 1];
+        }
+        public Difficulty prev(){
+            return values()[ordinal() > 0 ? ordinal()  - 1 : 0];
+        }
+
+    }
+    Difficulty difficulty = Difficulty.Easy;
     //Panels
     private JPanel SettingsFrame;
     private JPanel bufferPanelLeft;
@@ -20,10 +33,16 @@ public class SettingsView {
     private JPanel fullScreenPanel;
 
     //Font  for the buttons
-    private Font normalButtonFont = new Font("Italic", BOLD, 30);
-    private Font largerButtonFont = new Font("Italic", BOLD, 40);
+    private Font normalButtonFont = new Font("Italic", BOLD, 15);
+    private Font largerButtonFont = new Font("Italic", BOLD, 25);
 
-    LinkedList<JButton>buttons;
+    private LinkedList<JButton>buttons;
+    private LinkedList<JButton> currValueButtons = new LinkedList<>();
+
+    //Settings
+    private int numberOfBots =0;
+    private int botDiff = 0;
+    private boolean godMode = false;
 
     //Dimensions
     private int width;
@@ -55,7 +74,6 @@ public class SettingsView {
         this.width = width;
         this.height = height;
     }
-
     /**
      * Creates the settings view.
      */
@@ -66,7 +84,6 @@ public class SettingsView {
         initBufferPanels();
         initSettingsFrame();
     }
-
     /**
      * Initiates the settings frame.
      */
@@ -87,7 +104,6 @@ public class SettingsView {
         bufferPanelRight.setPreferredSize(new Dimension(width/3,height));
         bufferPanelLeft.setPreferredSize(new Dimension(width/3,height));
     }
-
     /**
      * Initiates the button panel.
      */
@@ -116,16 +132,16 @@ public class SettingsView {
 
         labelButtons.add(botCountButton);
         labelButtons.add(botDifficulty);
-        labelButtons.add(godModeOffButton);
-        labelButtons.add(fullScreenOnButton);
-        /*for (JButton button: labelButtons) {
-            button.setFont(normalButtonFont);
+        labelButtons.add(godModeButton);
+        labelButtons.add(fullScreenButton);
+        for (JButton button: labelButtons) {
+            button.setFont(largerButtonFont);
             button.setOpaque(false);
             button.setFocusPainted(false);
             button.setContentAreaFilled(false);
             button.setBorderPainted(false);
             button.setBorder(null);
-        }*/
+        }
     }
     /**
      * Initiates the choice panels.
@@ -136,17 +152,27 @@ public class SettingsView {
         initBotDiffPanel();
         initGodModePanel();
         initFullscreenPanel();
+        styleCurrentSettingsButtons();
     }
+
+    /**
+     * Initiates the dec and inc / off and on buttons
+     */
     private void initChoiceButtons(){
         buttons= new LinkedList<>();
 
         botCountDecButton = new JButton("<");
         botCountIncButton = new JButton(">");
         currentValueBotCountButton = new JButton("1");
+        botCountIncButton.addMouseListener(new NumberOfBotsIncrease(botCountIncButton));
+        botCountDecButton.addMouseListener(new NumberOfBotsDecrease(botCountDecButton));
+
 
         botDifficultyDecButton = new JButton("<");
         botDifficultyIncButton = new JButton(">");
-        currentValueBotDiffButton = new JButton("Easy");
+        currentValueBotDiffButton = new JButton(difficulty.toString());
+        botDifficultyIncButton.addMouseListener(new BotDifficultyInc(botDifficultyIncButton));
+        botDifficultyDecButton.addMouseListener(new BotDifficultyDec(botDifficultyDecButton));
 
         godModeOffButton = new JButton("<");
         godModeOnButton = new JButton(">");
@@ -167,7 +193,6 @@ public class SettingsView {
             button.setBorder(null);
         }
     }
-
     /**
      * Adds all the buttons to the list, makes it easier/faster to style them.
      */
@@ -182,31 +207,181 @@ public class SettingsView {
         buttons.add(fullScreenOnButton);
     }
     private void initBotCountPanel(){
-        botCountPanel = new JPanel(new BorderLayout());
+        botCountPanel = new JPanel(new GridLayout(0,3));
         botCountPanel.add(botCountDecButton,BorderLayout.WEST);
         botCountPanel.add(currentValueBotCountButton,BorderLayout.CENTER);
         botCountPanel.add(botCountIncButton, BorderLayout.EAST);
+        currValueButtons.add(currentValueBotCountButton);
     }
     private void initBotDiffPanel(){
-        botDifficultyPanel = new JPanel(new BorderLayout());
+        botDifficultyPanel = new JPanel(new GridLayout(0,3));
         botDifficultyPanel.add(botDifficultyDecButton,BorderLayout.WEST);
         botDifficultyPanel.add(currentValueBotDiffButton,BorderLayout.CENTER);
         botDifficultyPanel.add(botDifficultyIncButton,BorderLayout.EAST);
+        currValueButtons.add(currentValueBotDiffButton);
     }
     private void initGodModePanel(){
-        godModePanel = new JPanel(new BorderLayout());
+        godModePanel = new JPanel(new GridLayout(0,3));
         godModePanel.add(godModeOffButton,BorderLayout.WEST);
         godModePanel.add(currentValueGodModeButton,BorderLayout.CENTER);
         godModePanel.add(godModeOnButton,BorderLayout.EAST);
+        currValueButtons.add(currentValueGodModeButton);
     }
     private void initFullscreenPanel(){
-        fullScreenPanel = new JPanel(new BorderLayout());
+        fullScreenPanel = new JPanel(new GridLayout(0,3));
         fullScreenPanel.add(fullScreenOffButton,BorderLayout.WEST);
         fullScreenPanel.add(currentValueFullscreenButton,BorderLayout.CENTER);
         fullScreenPanel.add(fullScreenOnButton,BorderLayout.EAST);
+        currValueButtons.add(currentValueFullscreenButton);
+    }
+    private void styleCurrentSettingsButtons(){
+        for (JButton button: currValueButtons) {
+            button.setFont(normalButtonFont);
+            button.setOpaque(false);
+            button.setFocusPainted(false);
+            button.setContentAreaFilled(false);
+            button.setBorderPainted(false);
+            button.setBorder(null);
+        }
     }
     public JPanel getSettingsView(){
         return SettingsFrame;
+    }
+    private class NumberOfBotsIncrease implements MouseListener{
+
+        private JButton button;
+        public NumberOfBotsIncrease(JButton button){
+            this.button = button;
+        }
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if(numberOfBots<=3){
+                numberOfBots++;
+            }
+           currentValueBotCountButton.setText(Integer.toString(numberOfBots));
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            button.setForeground(Color.RED);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            button.setForeground(Color.BLACK);
+        }
+    }
+    private class NumberOfBotsDecrease implements MouseListener{
+
+        private JButton button;
+        public NumberOfBotsDecrease(JButton button){
+            this.button = button;
+        }
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if(numberOfBots>0){
+                numberOfBots--;
+            }
+            currentValueBotCountButton.setText(Integer.toString(numberOfBots));
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            button.setForeground(Color.RED);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            button.setForeground(Color.BLACK);
+        }
+    }
+    private class BotDifficultyInc implements MouseListener{
+
+        private JButton button;
+        public BotDifficultyInc(JButton button){
+            this.button = button;
+        }
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if(!currentValueBotDiffButton.getText().equals("Expert")){
+                difficulty = difficulty.next();
+                currentValueBotDiffButton.setText(difficulty.toString());
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            button.setForeground(Color.RED);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            button.setForeground(Color.BLACK);
+        }
+    }
+    private class BotDifficultyDec implements MouseListener{
+
+        private JButton button;
+        public BotDifficultyDec(JButton button){
+            this.button = button;
+        }
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if(!currentValueBotDiffButton.getText().equals("Easy")){
+                difficulty = difficulty.prev();
+                currentValueBotDiffButton.setText(difficulty.toString());
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            button.setForeground(Color.RED);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            button.setForeground(Color.BLACK);
+        }
     }
 }
 
