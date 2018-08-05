@@ -63,7 +63,8 @@ public class GameView {
 
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(width,height-(height/6)));
-        canvas.setBackground(Color.PINK);
+        canvas.setBackground(Color.WHITE);
+
     }
 
     /**
@@ -93,7 +94,7 @@ public class GameView {
     private void initInfoPanel(){
         infoPanel = new JPanel();
         infoPanel.setPreferredSize(new Dimension(width- (width/8),height/6));
-        infoPanel.setBackground(Color.RED);
+        infoPanel.setBackground(Color.decode("#001a4d"));
     }
     /**
      * Initiates the side menu buttons.

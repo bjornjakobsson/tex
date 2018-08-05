@@ -30,7 +30,7 @@ public class Controller implements Runnable {
         this.startMenuView = new StartMenuView(width, height);
         this.gameView = new GameView(width, height);
         this.settingsView = new SettingsView(width,height);
-        this.settings = new Settings();
+        this.settings = new Settings(width,height);
 
     }
     @Override

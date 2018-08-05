@@ -303,7 +303,7 @@ public class SettingsView {
         }
         @Override
         public void mouseClicked(MouseEvent e) {
-            if(numberOfBots<=3){
+            if(numberOfBots<=2){
                 numberOfBots++;
             }
            currentValueBotCountButton.setText(Integer.toString(numberOfBots));

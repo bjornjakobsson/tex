@@ -4,7 +4,6 @@ import java.awt.*;
 
 public class Model {
     private Game game;
-    private Settings settings;
 
     public Model(){
         this.game = new Game();
@@ -16,8 +15,8 @@ public class Model {
      */
     public void initGame(Canvas canvas, Settings settings){
             if(!game.getRunning()){
-                game.start(canvas);
                 game.setSettings(settings);
+                game.start(canvas);
             }
     }
     public void exitGame(){

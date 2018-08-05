@@ -6,8 +6,11 @@ public class Settings {
     private String botDiff = "Easy";
     private boolean godMode = false;
     private boolean fullScreen = false;
-    public Settings(){
-
+    private int width;
+    private int height;
+    public Settings(int width, int height){
+        this.width = width;
+        this.height = height;
     }
 
     public void setNumberOfBots(int numberOfBots) {
@@ -33,8 +36,13 @@ public class Settings {
     public boolean isGodMode(){
         return godMode;
     }
-
     public boolean isFullScreen() {
         return fullScreen;
+    }
+    public int getWidth(){
+        return width;
+    }
+    public int getHeight(){
+        return height;
     }
 }
