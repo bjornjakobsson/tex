@@ -11,7 +11,7 @@ public class Model {
     }
 
     /**
-     * Starts a new game. Should load settings to game aswell.
+     * Starts a new game. Should load settings to game as well.
      * @param canvas
      */
     public void initGame(Canvas canvas, Settings settings){

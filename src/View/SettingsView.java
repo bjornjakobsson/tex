@@ -1,7 +1,11 @@
 package View;
 
+import Controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.LinkedList;
@@ -26,11 +30,14 @@ public class SettingsView {
     private JPanel SettingsFrame;
     private JPanel bufferPanelLeft;
     private JPanel bufferPanelRight;
+    private JPanel navigationPanel;
+    private JPanel buttonNavigationPanel;
     private JPanel buttonPanel;
     private JPanel botCountPanel;
     private JPanel botDifficultyPanel;
     private JPanel godModePanel;
     private JPanel fullScreenPanel;
+    private JPanel navigationFillerPanel;
 
     //Font  for the buttons
     private Font normalButtonFont = new Font("Italic", BOLD, 15);
@@ -43,6 +50,7 @@ public class SettingsView {
     private int numberOfBots =0;
     private int botDiff = 0;
     private boolean godMode = false;
+    private boolean fullScreen = false;
 
     //Dimensions
     private int width;
@@ -53,6 +61,8 @@ public class SettingsView {
     private JButton botDifficulty;
     private JButton godModeButton;
     private JButton fullScreenButton;
+    private JButton defaultButton;
+    private JButton exitButton;
 
     //Actual value (also just really labels but w/e)
     private JButton currentValueBotCountButton;
@@ -69,6 +79,7 @@ public class SettingsView {
     private JButton godModeOnButton;
     private JButton fullScreenOffButton;
     private JButton fullScreenOnButton;
+
 
     public SettingsView(int width, int height){
         this.width = width;
@@ -103,6 +114,39 @@ public class SettingsView {
         bufferPanelLeft = new JPanel();
         bufferPanelRight.setPreferredSize(new Dimension(width/3,height));
         bufferPanelLeft.setPreferredSize(new Dimension(width/3,height));
+
+        initNavigationPanel();
+        bufferPanelRight.setLayout(new BorderLayout());
+        bufferPanelRight.add(navigationPanel,BorderLayout.SOUTH);
+    }
+    private void initNavigationPanel(){
+        navigationPanel = new JPanel(new BorderLayout());
+        navigationPanel.setPreferredSize(new Dimension(width/3,height/3));
+        buttonNavigationPanel = new JPanel(new GridLayout(2,2,0,0));
+        buttonNavigationPanel.setPreferredSize(new Dimension(width/3,height/6));
+
+        navigationFillerPanel = new JPanel();
+
+        defaultButton = new JButton("Apply");
+        defaultButton.setFont(largerButtonFont);
+        defaultButton.setOpaque(false);
+        defaultButton.setFocusPainted(false);
+        defaultButton.setContentAreaFilled(false);
+       // applyButton.setBorderPainted(false);
+       // applyButton.setBorder(null);
+        exitButton = new JButton("Exit");
+        exitButton.setFont(largerButtonFont);
+        exitButton.setOpaque(false);
+        exitButton.setFocusPainted(false);
+        exitButton.setContentAreaFilled(false);
+        //exitButton.setBorderPainted(false);
+       // exitButton.setBorder(null);
+
+        buttonNavigationPanel.add(defaultButton);
+        buttonNavigationPanel.add(exitButton);
+        buttonNavigationPanel.add(navigationFillerPanel);
+        navigationPanel.add(buttonNavigationPanel,BorderLayout.SOUTH);
+
     }
     /**
      * Initiates the button panel.
@@ -156,7 +200,7 @@ public class SettingsView {
     }
 
     /**
-     * Initiates the dec and inc / off and on buttons
+     * Initiates the dec and inc / off and on buttons with mouselisteners
      */
     private void initChoiceButtons(){
         buttons= new LinkedList<>();
@@ -176,10 +220,14 @@ public class SettingsView {
 
         godModeOffButton = new JButton("<");
         godModeOnButton = new JButton(">");
+        godModeOffButton.addMouseListener(new GodModeOff(godModeOffButton));
+        godModeOnButton.addMouseListener(new GodModeOn(godModeOnButton));
         currentValueGodModeButton = new JButton("Off");
 
         fullScreenOffButton = new JButton("<");
         fullScreenOnButton = new JButton(">");
+        fullScreenOffButton.addMouseListener(new FullScreenOff(fullScreenOffButton));
+        fullScreenOnButton.addMouseListener(new FullScreenOn(fullScreenOnButton));
         currentValueFullscreenButton = new JButton("Off");
 
         addButtonsToList();
@@ -382,6 +430,151 @@ public class SettingsView {
         public void mouseExited(MouseEvent e) {
             button.setForeground(Color.BLACK);
         }
+    }
+    private class GodModeOn implements MouseListener{
+        private JButton button;
+        public GodModeOn(JButton button){this.button = button;}
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if(currentValueGodModeButton.getText().equals("Off")){
+                currentValueGodModeButton.setText("On");
+            }else{
+                currentValueGodModeButton.setText("Off");
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            button.setForeground(Color.RED);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            button.setForeground(Color.BLACK);
+        }
+    }
+    private class GodModeOff implements MouseListener{
+
+        private JButton button;
+        public GodModeOff(JButton button){this.button = button;}
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if(currentValueGodModeButton.getText().equals("Off")){
+                currentValueGodModeButton.setText("On");
+            }else{
+                currentValueGodModeButton.setText("Off");
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            button.setForeground(Color.RED);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            button.setForeground(Color.BLACK);
+        }
+    }
+    private class FullScreenOn implements MouseListener{
+        private JButton button;
+        public FullScreenOn(JButton button){this.button = button;}
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            button.setForeground(Color.RED);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            button.setForeground(Color.BLACK);
+        }
+    }
+    private class FullScreenOff implements MouseListener{
+        private JButton button;
+        public FullScreenOff(JButton button){this.button = button;}
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            button.setForeground(Color.RED);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            button.setForeground(Color.BLACK);
+        }
+    }
+    public JButton getExitButton(){
+        return exitButton;
+    }
+    public JButton getApplyButton(){
+        return defaultButton;
+    }
+    public int getNumberOfBots(){
+        return numberOfBots;
+    }
+    public String getBotDiff(){
+        return currentValueBotDiffButton.getText();
+    }
+    public boolean getGodMode(){
+        if(currentValueGodModeButton.getText().equals("On")){
+            return true;
+        }
+        return false;
+    }
+    public boolean getFullScreen(){
+        if(currentValueFullscreenButton.getText().equals("On")){
+            return true;
+        }
+        return false;
     }
 }
 

@@ -7,6 +7,7 @@ import View.StartMenuView;
 import View.View;
 import View.SettingsView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +17,7 @@ public class Controller implements Runnable {
     private StartMenuView startMenuView;
     private View view;
     private Model model;
+    private Settings settings;
     private int width;
     private int height;
 
@@ -28,6 +30,7 @@ public class Controller implements Runnable {
         this.startMenuView = new StartMenuView(width, height);
         this.gameView = new GameView(width, height);
         this.settingsView = new SettingsView(width,height);
+        this.settings = new Settings();
 
     }
     @Override
@@ -38,6 +41,7 @@ public class Controller implements Runnable {
         view.changeView(startMenuView.getStartMenuView());
         addActionListenersToStartMenu();
         addActionListenersToGameMenus();
+        addActionListenersToSettingMenu();
     }
 
     /**
@@ -51,6 +55,10 @@ public class Controller implements Runnable {
     private void addActionListenersToGameMenus(){
         gameView.addActionListernerToExitButton(new ExitGameViewButtonListener());
     }
+    private void addActionListenersToSettingMenu(){
+        settingsView.getApplyButton().addActionListener(new ApplySettingsButtonListener());
+        settingsView.getExitButton().addActionListener(new ExitSettingsButtonListener());
+    }
     /**
      * ActionListener for the play button. Starts the game.
      */
@@ -59,7 +67,6 @@ public class Controller implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             view.changeView(gameView.getGameView());
-            Settings settings = new Settings();
             model.initGame(gameView.getGameCanvas(), settings);
             //Uppdatera settings här till model som sen
             // skickas till game klassen.
@@ -91,7 +98,27 @@ public class Controller implements Runnable {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
+
             view.changeView(settingsView.getSettingsView());
+        }
+    }
+    private class ExitSettingsButtonListener implements ActionListener{
+        public ExitSettingsButtonListener(){}
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.changeView(startMenuView.getStartMenuView());
+
+        }
+    }
+    private class ApplySettingsButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.changeView(startMenuView.getStartMenuView());
+            settings.setBotDiff(settingsView.getBotDiff());
+            settings.setNumberOfBots(settingsView.getNumberOfBots());
+            settings.setGodMode(settingsView.getGodMode());
+            settings.setFullScreen(settingsView.getFullScreen());
         }
     }
 
