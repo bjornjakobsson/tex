@@ -47,7 +47,7 @@ public class World {
      * Every render call renders every object currently active in the world.
      */
     public void render(Graphics g){
-        g.drawImage(img,0,0,null);
+     //   g.drawImage(img,0,0,null);
         player.render(g);
         for (Bot bot: bots) {
             bot.render(g);

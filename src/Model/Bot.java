@@ -21,17 +21,17 @@ public class Bot {
     private void findBotPosition(){
         if(positionOnTable==0){
             botName="Top";
-            x=width/2;
-            y=height/3;
+            x=width/2-50;
+            y=height/6;
         }
         else if(positionOnTable==1){
            botName="Right";
            x=width-(width/3);
-           y=height/2;
+           y=height/2-50;
         }
         else{
             botName="Bottom";
-            x=width/2;
+            x=width/2-50;
             y=height-(height/3);
         }
     }

@@ -14,8 +14,8 @@ public class Player {
         findPosition();
     }
     private void findPosition(){
-        x=width-((width/2)+(width/4));
-        y=height/2;
+        x=width-((width/2)+(width/3));
+        y=height/2-50;
     }
     public void tick(){
 

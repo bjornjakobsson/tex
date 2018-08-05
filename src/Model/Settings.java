@@ -2,7 +2,7 @@ package Model;
 
 public class Settings {
 
-    private int numberOfBots =0;
+    private int numberOfBots =3;
     private String botDiff = "Easy";
     private boolean godMode = false;
     private boolean fullScreen = false;
