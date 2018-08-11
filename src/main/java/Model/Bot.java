@@ -15,6 +15,8 @@ public class Bot {
     private int cardTwoy;
     private int width;
     private int height;
+
+    private int chipsValue=1000;
     private boolean myTurn=false;
     private Card botCardOne;
     private Card botCardTwo;
@@ -32,15 +34,15 @@ public class Bot {
             cardOnex=width/2-50;
             cardOney=height/30;
 
-            cardTwox=width/2-70;
-            cardTwoy=height/22;
+            cardTwox=width/2-64;
+            cardTwoy=height/21;
         }
         else if(positionOnTable==1){
            botName="Right";
-            cardOnex=width-(width/3)+40;
+            cardOnex=width-(width/5)+(width/100);
             cardOney=height/3;
 
-            cardTwox=width-(width/3)+20;
+            cardTwox=width-(width/5);
             cardTwoy=height/3+12;
         }
         else{
@@ -48,7 +50,7 @@ public class Bot {
             cardOnex=width/2-50;
             cardOney=height-(height/3)-10;
 
-            cardTwox=width/2-70;
+            cardTwox=width/2-64;
             cardTwoy=height-(height/3);
         }
     }
@@ -76,4 +78,5 @@ public class Bot {
         this.botCardOne = cardOne;
         this.botCardTwo = cardTwo;
     }
+
 }

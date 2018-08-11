@@ -12,7 +12,7 @@ public class World {
     private LinkedList<Card> deck=new LinkedList<>();
     private LinkedList<Bot> bots=new LinkedList<>();
     private Player player;
-
+    private Dealer dealer;
 
 
     private int ticks;
@@ -37,23 +37,14 @@ public class World {
         for (Bot bot: bots) {
             bot.giveBotCards(deck.getFirst(),deck.getFirst());
         }
+        dealer = new Dealer(settings.getWidth(),settings.getHeight(),player,bots,deck);
     }
     /**
      * Every tick updates the different objects currently active in the world.
      */
     public void tick(){
         ticks++;
-        player.tick();
-        //If the player has finished his/hers turn, the bots start their turn in the list order (top,right, bot)
-        //When the bots are done, its the players turn again.
-        if(!player.isPlayersTurn()){
-            for (Bot bot : bots) {
-                bot.startBotTurn();
-                bot.tick();
-                bot.endBotTurn();
-            }
-        }
-        player.startPlayerTurn();
+        dealer.tick();
     }
 
     /**

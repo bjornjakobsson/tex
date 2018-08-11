@@ -3,7 +3,7 @@ package Model;
 import java.awt.*;
 
 public class Player {
-
+    private int cardSeperator = 120;
     private int cardOnex;
     private int cardOney;
     private int cardTwox;
@@ -14,6 +14,8 @@ public class Player {
 
     private int width;
     private int height;
+
+    private int chipsValue=1000;
     private boolean myTurn=true;
 
     public Player(int width, int height){
@@ -22,10 +24,10 @@ public class Player {
         findPosition();
     }
     private void findPosition(){
-        cardOnex=width-((width/2)+(width/4));
+        cardOnex=width/2-width/3-cardSeperator;
         cardOney=height/3+12;
 
-        cardTwox=width-((width/2)+(width/4)+120);
+        cardTwox=width/2-width/3;
         cardTwoy=height/3+12;
     }
     public void tick(){
@@ -44,7 +46,6 @@ public class Player {
     public void endPlayerTurn(){
         myTurn=false;
     }
-
     public boolean isPlayersTurn() {
         return myTurn;
     }
