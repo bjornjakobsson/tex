@@ -26,7 +26,7 @@ public class View {
         frame.setSize(width,height);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setResizable(false);
+        frame.setResizable(true);
 
         currentPanel = new JPanel();
 

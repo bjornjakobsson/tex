@@ -41,6 +41,7 @@ public class Controller implements Runnable {
         addActionListenersToStartMenu();
         addActionListenersToGameMenus();
         addActionListenersToSettingMenu();
+        addActionListenerToCallButton();
     }
 
     /**
@@ -57,6 +58,9 @@ public class Controller implements Runnable {
     private void addActionListenersToSettingMenu(){
         settingsView.getApplyButton().addActionListener(new ApplySettingsButtonListener());
         settingsView.getExitButton().addActionListener(new ExitSettingsButtonListener());
+    }
+    private void addActionListenerToCallButton(){
+        gameView.getCallButton().addActionListener(new CallActionListener());
     }
     /**
      * ActionListener for the play button. Starts the game.
@@ -117,6 +121,13 @@ public class Controller implements Runnable {
             settings.setNumberOfBots(settingsView.getNumberOfBots());
             settings.setGodMode(settingsView.getGodMode());
             settings.setFullScreen(settingsView.getFullScreen());
+        }
+    }
+    private class CallActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            model.getGame().getWorld().playerCall();
         }
     }
 

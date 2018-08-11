@@ -17,6 +17,8 @@ public class GameView {
     private JPanel bottomMenu;
     private JPanel buttonPanel;
     private JPanel infoPanel;
+    private JPanel actionPanel;
+    private JPanel fillerPanel;
 
     //Game canvas
     private Canvas canvas;
@@ -24,6 +26,18 @@ public class GameView {
     //Buttons
     private JButton exitButton;
     private JButton muteButton;
+    private JButton callButton;
+    private JButton checkButton;
+    private JButton raiseButton;
+    private JButton foldButton;
+    private JButton allInButton;
+
+    //Text fields
+    private JTextField raiseTextField;
+
+    //Text areas
+    JScrollPane loggScrollPane;
+    private JTextArea loggTextArea;
 
     //Fonts
     private Font normalButtonFont = new Font("Italic", BOLD, 20);
@@ -72,7 +86,7 @@ public class GameView {
      */
     private void initBottomMenu(){
         bottomMenu = new JPanel();
-        bottomMenu.setPreferredSize(new Dimension(width,height/6));
+        bottomMenu.setPreferredSize(new Dimension(width,height/10));
         bottomMenu.setLayout(new BorderLayout());
     }
 
@@ -88,13 +102,43 @@ public class GameView {
         buttonPanel.add(exitButton);
     }
 
+
     /**
      * Initiates the info panel. Current money, time etc.
      */
     private void initInfoPanel(){
+        actionPanel = new JPanel(new GridBagLayout());
+        fillerPanel = new JPanel();
+        //actionPanel.setBackground(Color.BLACK);
         infoPanel = new JPanel();
         infoPanel.setPreferredSize(new Dimension(width- (width/8),height/6));
-        infoPanel.setBackground(Color.decode("#001a4d"));
+       // infoPanel.setBackground(Color.decode("#001a4d"));
+        infoPanel.setLayout(new BorderLayout());
+        infoPanel.add(actionPanel, BorderLayout.WEST);
+        infoPanel.add(fillerPanel, BorderLayout.EAST);
+        infoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        callButton = new JButton("Call");
+        checkButton = new JButton("Check");
+        foldButton = new JButton("Fold");
+        allInButton = new JButton("All in");
+        raiseButton = new JButton("Raise");
+        raiseTextField = new JTextField("",width/120);
+
+        loggTextArea = new JTextArea(height/100,width/60);
+        loggScrollPane = new JScrollPane(loggTextArea);
+        fillerPanel.add(loggScrollPane);
+
+        actionPanel.add(checkButton);
+        actionPanel.add(callButton);
+        actionPanel.add(foldButton);
+        actionPanel.add(allInButton);
+        actionPanel.add(raiseButton);
+        actionPanel.add(raiseTextField);
+
+
+
+
     }
     /**
      * Initiates the side menu buttons.
@@ -160,5 +204,33 @@ public class GameView {
         public void mouseExited(MouseEvent e) {
             button.setFont(normalButtonFont);
         }
+    }
+
+    public JPanel getGameFrame() {
+        return gameFrame;
+    }
+
+    public JButton getCallButton() {
+        return callButton;
+    }
+
+    public JButton getCheckButton() {
+        return checkButton;
+    }
+
+    public JButton getRaiseButton() {
+        return raiseButton;
+    }
+
+    public JButton getFoldButton() {
+        return foldButton;
+    }
+
+    public JButton getAllInButton() {
+        return allInButton;
+    }
+
+    public JTextField getRaiseTextField() {
+        return raiseTextField;
     }
 }

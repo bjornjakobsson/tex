@@ -22,4 +22,7 @@ public class Model {
     public void exitGame(){
             game.stop();
     }
+    public Game getGame(){
+        return game;
+    }
 }

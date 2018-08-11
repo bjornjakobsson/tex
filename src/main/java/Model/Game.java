@@ -103,4 +103,7 @@ public class Game implements Runnable{
     public void setSettings(Settings settings){
         this.settings = settings;
     }
+    public World getWorld(){
+        return world;
+    }
 }
