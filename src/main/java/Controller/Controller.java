@@ -41,7 +41,7 @@ public class Controller implements Runnable {
         addActionListenersToStartMenu();
         addActionListenersToGameMenus();
         addActionListenersToSettingMenu();
-        addActionListenerToCallButton();
+        addActionListenerToGameButtons();
     }
 
     /**
@@ -59,8 +59,12 @@ public class Controller implements Runnable {
         settingsView.getApplyButton().addActionListener(new ApplySettingsButtonListener());
         settingsView.getExitButton().addActionListener(new ExitSettingsButtonListener());
     }
-    private void addActionListenerToCallButton(){
+    private void addActionListenerToGameButtons(){
         gameView.getCallButton().addActionListener(new CallActionListener());
+        gameView.getAllInButton().addActionListener(new AllInActionListener());
+        gameView.getCheckButton().addActionListener(new CheckButtonActionListener());
+        gameView.getRaiseButton().addActionListener(new RaiseActionListener());
+        gameView.getFoldButton().addActionListener(new FoldActionListener());
     }
     /**
      * ActionListener for the play button. Starts the game.
@@ -128,6 +132,36 @@ public class Controller implements Runnable {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             model.getGame().getWorld().playerCall();
+
+        }
+    }
+    private class CheckButtonActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            model.getGame().getWorld().playerCheck();
+        }
+    }
+    private class FoldActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            model.getGame().getWorld().playerFold();
+        }
+    }
+    private class AllInActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            model.getGame().getWorld().playerAllIn();
+        }
+    }
+    private class RaiseActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            String ammount = gameView.getRaiseTextField().getText();
+            model.getGame().getWorld().playerRaise(ammount);
         }
     }
 

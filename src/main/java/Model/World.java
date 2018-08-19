@@ -52,13 +52,28 @@ public class World {
      */
     public void render(Graphics g) {
         //   g.drawImage(img,0,0,null);
-      //  g.drawImage(deck.getFirst().getImage(),100,100,null);
+        //g.drawImage(deck.getFirst().getImage(),100,100,null);
         player.render(g);
         for (Bot bot : bots) {
-            bot.render(g);
+           bot.render(g);
         }
     }
+    public void playerCheck(){
+        player.setAction("Check");
+    }
     public void playerCall(){
-        player.endPlayerTurn();
+        player.setAction("Call");
+    }
+    public void playerFold(){
+        player.setAction("Fold");
+    }
+    public void playerAllIn(){
+        player.setAction("All in");
+    }
+    public void playerRaise(String ammount){
+        player.setAction(ammount);
+    }
+    public Dealer getDealer(){
+        return dealer;
     }
 }

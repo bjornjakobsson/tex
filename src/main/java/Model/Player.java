@@ -1,6 +1,7 @@
 package Model;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class Player {
     private int cardSeperator = 120;
@@ -15,8 +16,12 @@ public class Player {
     private int width;
     private int height;
 
+    private String Action="NONE";
+
     private int chipsValue=1000;
+    private int chipsOnTable=0;
     private boolean myTurn=true;
+    private boolean folded=false;
 
     public Player(int width, int height){
         this.width= width;
@@ -30,18 +35,23 @@ public class Player {
         cardTwox=width/2-width/3;
         cardTwoy=height/3+12;
     }
-    public void tick(){
-        if(!myTurn){
-            return;
+    public String tick(){
+        //System.out.println("Player tick");
+        if(!Action.equals("NONE")){
+            String tmp = Action;
+            Action = "NONE";
+            return tmp;
         }
-
+        return "NONE";
     }
     public void render(Graphics g){
       g.drawImage(cardOne.getImage(),cardOnex,cardOney,null);
       g.drawImage(cardTwo.getImage(),cardTwox,cardTwoy,null);
     }
     public void startPlayerTurn(){
-        myTurn=true;
+        if(!folded){
+            myTurn=true;
+        }
     }
     public void endPlayerTurn(){
         myTurn=false;
@@ -52,5 +62,17 @@ public class Player {
     public void givePlayerCards(Card cardOne, Card cardTwo){
         this.cardOne = cardOne;
         this.cardTwo = cardTwo;
+    }
+    public void setAction(String string){
+        Action = string;
+    }
+    public int getChipsValue(){
+        return chipsValue;
+    }
+    public int getChipsOnTable(){
+        return chipsOnTable;
+    }
+    public void setFolded(boolean val){
+        folded = val;
     }
 }
