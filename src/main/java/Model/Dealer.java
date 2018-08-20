@@ -7,6 +7,7 @@ public class Dealer {
     private LinkedList<Bot> bots=new LinkedList<>();
     private Player player;
     private int currentPot=0;
+    private int callRequirement=100;
     private String playerAction="";
 
     public Dealer(int width, int height, Player player, LinkedList<Bot> bots, LinkedList<Card> deck){
@@ -29,7 +30,6 @@ public class Dealer {
                 else{
                     System.out.println("ERROR: That action is illegal");
                 }
-                System.out.println(playerAction);
             }
         }
         if(!player.isPlayersTurn()){
@@ -43,22 +43,52 @@ public class Dealer {
     }
     private boolean isLeagal(String Action){
         if(Action.equals("Check")){
-            return true;
+            if(player.getChipsValue()>=callRequirement){
+                return true;
+            }else {
+                return false;
+            }
         }
         else if(Action.equals("Call")){
-            return true;
+            if(player.getChipsValue()>=callRequirement){
+                return true;
+            }else{
+                return false;
+            }
         }
         else if(Action.equals("All in")){
             return true;
         }
         else if(Action.equals("Fold")){
-            player.setFolded(true);
+            return true;
+        }
+        else if(Action.substring(0,1).equals("r")){
+            String s = Action.substring(1,Action.length());
+            int ammount = Integer.parseInt(s);
+            //Implementera raise logik
             return true;
         }
         return false;
     }
     private void doPlayerAction(String Action){
-
+        if(Action.equals("Check")){
+            //Nothing i guess
+        }
+        else if(Action.equals("Call")){
+            player.setChipsValue(player.getChipsValue()-callRequirement);
+            player.setChipsOnTable(player.getChipsOnTable()+callRequirement);
+            System.out.println("Player has "+ player.getChipsValue()+" left\n" +
+                    "Player has "+ player.getChipsOnTable()+" on the table");
+        }
+        else if(Action.equals("All in")){
+            player.setChipsOnTable(player.getChipsValue()+player.getChipsOnTable());
+            player.setChipsValue(0);
+            System.out.println("Player has "+ player.getChipsValue()+" left\n" +
+                    "Player has "+ player.getChipsOnTable()+" on the table");
+        }
+        else if(Action.equals("Fold")){
+            player.setFolded(true);
+        }
     }
     public void setCurrentPot(int val){
         currentPot = val;
@@ -71,5 +101,8 @@ public class Dealer {
     }
     public boolean botCheck(){
         return true;
+    }
+    public void setCallRequirement(int val){
+        callRequirement=val;
     }
 }

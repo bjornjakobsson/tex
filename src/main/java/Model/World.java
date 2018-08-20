@@ -71,7 +71,7 @@ public class World {
         player.setAction("All in");
     }
     public void playerRaise(String ammount){
-        player.setAction(ammount);
+        player.setAction("r"+ammount);
     }
     public Dealer getDealer(){
         return dealer;

@@ -69,6 +69,12 @@ public class Player {
     public int getChipsValue(){
         return chipsValue;
     }
+    public void setChipsValue(int value){
+        chipsValue=value;
+    }
+    public void setChipsOnTable(int value){
+        chipsOnTable=value;
+    }
     public int getChipsOnTable(){
         return chipsOnTable;
     }

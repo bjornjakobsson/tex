@@ -1,5 +1,0 @@
-Kort
-loggfil
-maven
-
-användarnamn
