@@ -3,12 +3,17 @@ package Model;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class Player {
+public class Player extends Participant {
+
+    //private String name = "Player";
+
     private int cardSeperator = 120;
     private int cardOnex;
     private int cardOney;
     private int cardTwox;
     private int cardTwoy;
+
+    private int ChipsImage;
 
     private Card cardOne;
     private Card cardTwo;
@@ -20,6 +25,7 @@ public class Player {
 
     private int chipsValue=1000;
     private int chipsOnTable=0;
+
     private boolean myTurn=true;
     private boolean folded=false;
 
@@ -35,18 +41,26 @@ public class Player {
         cardTwox=width/2-width/3;
         cardTwoy=height/3+12;
     }
-    public String tick(){
+    @Override
+    public void tick(){
         //System.out.println("Player tick");
-        if(!Action.equals("NONE")){
+        /*if(!Action.equals("NONE")){
             String tmp = Action;
             Action = "NONE";
             return tmp;
         }
-        return "NONE";
+        return "NONE";*/
     }
     public void render(Graphics g){
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+
       g.drawImage(cardOne.getImage(),cardOnex,cardOney,null);
       g.drawImage(cardTwo.getImage(),cardTwox,cardTwoy,null);
+      g.drawString(Integer.toString(chipsValue),cardOnex+80,cardOney+200);
+
+      g.drawString(Integer.toString(getChipsOnTable()),cardTwox+130,cardTwoy+70);
+
+      g.drawString(getName(),cardOnex+20,cardOney-10);
     }
     public void startPlayerTurn(){
         if(!folded){

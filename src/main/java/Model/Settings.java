@@ -1,4 +1,12 @@
+/*
+    Class: Settings
+    Purpose: Sets the settings for a game. It is also the link from controller to model, so that you can display
+             info in View based on information in model.
+ */
+
 package Model;
+
+import Controller.Controller;
 
 public class Settings {
 
@@ -8,9 +16,11 @@ public class Settings {
     private boolean fullScreen = false;
     private int width;
     private int height;
-    public Settings(int width, int height){
+    private Controller controller;
+    public Settings(int width, int height, Controller controller){
         this.width = width;
         this.height = height;
+        this.controller=controller;
     }
 
     public void setNumberOfBots(int numberOfBots) {
@@ -44,5 +54,8 @@ public class Settings {
     }
     public int getHeight(){
         return height;
+    }
+    public Controller getController(){
+        return controller;
     }
 }

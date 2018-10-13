@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.Controller;
+
 import java.awt.*;
 
 public class Model {

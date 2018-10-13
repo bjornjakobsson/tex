@@ -29,7 +29,7 @@ public class Controller implements Runnable {
         this.startMenuView = new StartMenuView(width, height);
         this.gameView = new GameView(width, height);
         this.settingsView = new SettingsView(width,height);
-        this.settings = new Settings(width,height);
+        this.settings = new Settings(width,height,this);
 
     }
     @Override
@@ -43,7 +43,12 @@ public class Controller implements Runnable {
         addActionListenersToSettingMenu();
         addActionListenerToGameButtons();
     }
-
+    public void printMessageToViewLoggBox(String s){
+        gameView.getLoggTextArea().append(s);
+    }
+    public void clearGameLoggBox(){
+        gameView.getLoggTextArea().setText("");
+    }
     /**
      * Adds actionListeners to the menu items.
      */
@@ -73,8 +78,10 @@ public class Controller implements Runnable {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            clearGameLoggBox();
             view.changeView(gameView.getGameView());
             model.initGame(gameView.getGameCanvas(), settings);
+
             //Uppdatera settings här till model som sen
             // skickas till game klassen.
         }
