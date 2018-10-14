@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.Controller;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -19,6 +21,8 @@ public class Game implements Runnable{
     private World world;
     private int width=800;
     private int height=600;
+
+
 
     @Override
     public void run() {

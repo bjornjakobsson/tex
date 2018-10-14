@@ -1,45 +1,59 @@
 package Model;
 
+import java.awt.*;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Dealer {
+
+
+    private Participant bigBlind;
+    private Participant smallBlind;
+    private int bigBlindValue=2;
+    private int smallBlindValue=1;
+
     private LinkedList<Card> deck;
     private LinkedList<Bot> bots;
     private Player player;
+
+    private String state="preflop";
+
     private int currentPot=0;
     private int callRequirement=100;
-    private String playerAction="";
 
-    public Dealer(int width, int height, Player player, LinkedList<Bot> bots, LinkedList<Card> deck){
+    private String playerAction="";
+    private String errorMessage="";
+
+    private int width;
+    private int height;
+
+    private World world;
+
+    public Dealer(int width, int height, Player player, LinkedList<Bot> bots, LinkedList<Card> deck, World world){
         this.player = new Player(width,height);
         this.player = player;
         this.bots = bots;
         this.deck = deck;
+        this.width=width;
+        this.height=height;
+        this.world=world;
+
+        setFirstBlinds();
+
+
+
     }
     public void tick(){
-        if(player.isPlayersTurn()){
-            playerAction=player.tick();
-            if(playerAction.equals("NONE")){
-                playerAction=player.tick();
-            }
-            else{
-                if(isLeagal(playerAction)){
-                    doPlayerAction(playerAction);
-                    player.endPlayerTurn();
-                }
-                else{
-                    System.out.println("ERROR: That action is illegal");
-                }
-            }
+        if(state.equals("preflop")) {
+            preflopTick();
         }
-        if(!player.isPlayersTurn()){
-            for (Bot bot:bots) {
-                bot.startBotTurn();
-                bot.tick();
-                bot.endBotTurn();
-            }
-            player.startPlayerTurn();
-        }
+    }
+    public void preflopTick(){
+
+    }
+    public void render(Graphics g){
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        g.drawString(Integer.toString(currentPot),width/2,height/2);
     }
     private boolean isLeagal(String Action){
         if(Action.equals("Check")){
@@ -53,6 +67,7 @@ public class Dealer {
             if(player.getChipsValue()>=callRequirement){
                 return true;
             }else{
+                errorMessage="You can't call: insufficient funds\n";
                 return false;
             }
         }
@@ -77,14 +92,14 @@ public class Dealer {
         else if(Action.equals("Call")){
             player.setChipsValue(player.getChipsValue()-callRequirement);
             player.setChipsOnTable(player.getChipsOnTable()+callRequirement);
-            System.out.println("Player has "+ player.getChipsValue()+" left\n" +
-                    "Player has "+ player.getChipsOnTable()+" on the table");
+            currentPot+=callRequirement;
+
         }
         else if(Action.equals("All in")){
+            currentPot+=player.getChipsValue();
             player.setChipsOnTable(player.getChipsValue()+player.getChipsOnTable());
             player.setChipsValue(0);
-            System.out.println("Player has "+ player.getChipsValue()+" left\n" +
-                    "Player has "+ player.getChipsOnTable()+" on the table");
+
         }
         else if(Action.equals("Fold")){
             player.setFolded(true);
@@ -105,4 +120,13 @@ public class Dealer {
     public void setCallRequirement(int val){
         callRequirement=val;
     }
+    private void setFirstBlinds(){
+        Random r = new Random();
+        int pos = r.nextInt(world.participants.size()-1)+1;
+        bigBlind = world.participants.get(pos);
+        bigBlind.addToChipsOnTable(bigBlindValue);
+    }
+
+
+
 }

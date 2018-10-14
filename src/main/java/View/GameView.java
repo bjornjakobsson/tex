@@ -233,4 +233,8 @@ public class GameView {
     public JTextField getRaiseTextField() {
         return raiseTextField;
     }
+
+    public JTextArea getLoggTextArea(){
+        return loggTextArea;
+    }
 }
