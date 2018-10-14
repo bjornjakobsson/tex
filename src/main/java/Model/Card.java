@@ -23,7 +23,7 @@ public class Card {
 
     public static LinkedList<Card> getNewShuffeledDeck() throws IOException {
         LinkedList<Card> deck = new LinkedList<>();
-        BufferedImage test = ImageIO.read(new File("/home/bjorn/IdeaProjects/Texas_holdem/src/main/resources/2.png"));
+       // BufferedImage test = ImageIO.read(new File("/home/bjorn/IdeaProjects/Texas_holdem/src/main/resources/2.png"));
         BufferedImage img1 = ImageIO.read(Card.class.getResource("/test1.png"));
         BufferedImage cardback = ImageIO.read(Card.class.getResource("/cardback.png"));
         Card cardOne = new Card("One", "void", 1, img1);

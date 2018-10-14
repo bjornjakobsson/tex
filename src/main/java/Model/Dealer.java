@@ -3,8 +3,8 @@ package Model;
 import java.util.LinkedList;
 
 public class Dealer {
-    private LinkedList<Card> deck=new LinkedList<>();
-    private LinkedList<Bot> bots=new LinkedList<>();
+    private LinkedList<Card> deck;
+    private LinkedList<Bot> bots;
     private Player player;
     private int currentPot=0;
     private int callRequirement=100;
