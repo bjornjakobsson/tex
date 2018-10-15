@@ -30,26 +30,11 @@ public class World {
         }
     }
     private void loadSettings() throws IOException{
-
-        for(int i=0;i<settings.getNumberOfBots();i++){
-            bots.add(new Bot(settings.getBotDiff(),i,settings.getWidth(),settings.getHeight()));
-
-        }
-        player = new Player(settings.getWidth(),settings.getHeight());
         deck=Card.getNewShuffeledDeck();
-        player.givePlayerCards(deck.get(1),deck.get(1));
-        for (Bot bot: bots) {
-            bot.giveBotCards(deck.getFirst(),deck.getFirst());
-        }
-        generateName();
-        participants.add(player);
-        participants.addAll(bots);
-        giveNameToBots();
-        setLeftParticipans();
+        setUpBots();
+        setUpPlayer();
+        setUpParticipants();
         dealer = new Dealer(settings.getWidth(),settings.getHeight(),player,bots,deck,this);
-
-
-
     }
     /**
      * Every tick updates the different objects currently active in the world.
@@ -71,6 +56,38 @@ public class World {
            bot.render(g);
         }
         dealer.render(g);
+    }
+
+    /**
+     * Adds all bots and the player to a list of all participants. Also generates names for everyone
+     */
+    private void setUpParticipants(){
+        participants.add(player);
+        participants.addAll(bots);
+        generateNames();
+        giveNameToBots();
+        setLeftParticipans();
+        for (Participant p: participants) {
+            System.out.println("I am: "+p.getName()+" to my left is: "+p.getLeftParticipant().getName());
+        }
+    }
+
+    /**
+     * Creates a new player.
+     */
+    private void setUpPlayer(){
+        player = new Player(settings.getWidth(),settings.getHeight());
+        player.giveParticipantsCards(deck.get(1),deck.get(1));
+        player.setPositionOnTable("player");
+    }
+
+    /**
+     * Creates all bots
+     */
+    private void setUpBots(){
+        for(int i=0;i<settings.getNumberOfBots();i++){
+            bots.add(new Bot(settings.getBotDiff(),i,settings.getWidth(),settings.getHeight()));
+        }
     }
     public void playerCheck(){
         player.setAction("Check");
@@ -96,7 +113,7 @@ public class World {
     public void clearTextBox(){
         settings.getController().clearGameLoggBox();
     }
-    private void generateName(){
+    private void generateNames(){
         names.add("Bob");
         names.add("Steve");
         names.add("Alice");
@@ -113,19 +130,40 @@ public class World {
         }
     }
     private void setLeftParticipans(){
-        int i =1;
-        System.out.println("DET FINS "+participants.size()+" DELTAGARE");
+        //Om jag är top -> sätt höger om höger finns annrs neråt annars spelare
+        //Om jag är höger -> sätt neråt om neråt finns annars spelare
+        //Om jag är bottom -> sätt vänster spelare
         for (Participant p: participants) {
-            System.out.print(i);
-            if(i<participants.size()-1){
-                p.setLeftParticipant(participants.get(i+1));
-            }else if (i==3){
-                p.setLeftParticipant(participants.getFirst());
-                i=0;
+            if(p.getPositionOnTable().equals("top")){
+                for (Participant pitem: participants) {
+                    if(pitem.getPositionOnTable().equals("right")){
+                        p.setLeftParticipant(pitem);
+                    }
+                }
             }
-            System.out.println("   I am: "+p.getName()+" On my left is: "+p.getLeftParticipant().getName());
-            i++;
+            else if(p.getPositionOnTable().equals("right")){
+                for (Participant pitem: participants) {
+                    if(pitem.getPositionOnTable().equals("bottom")){
+                        p.setLeftParticipant(pitem);
+                    }
+                }
+            }
+            else if(p.getPositionOnTable().equals("bottom")){
+                for (Participant pitem: participants) {
+                    if(pitem.getPositionOnTable().equals("player")){
+                        p.setLeftParticipant(pitem);
+                    }
+                }
+            }
+            else if(p.getPositionOnTable().equals("player")){
+                for (Participant pitem: participants) {
+                    if(pitem.getPositionOnTable().equals("top")){
+                        p.setLeftParticipant(pitem);
+                    }
+                }
+            }
 
         }
     }
 }
+

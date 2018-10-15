@@ -1,11 +1,12 @@
 package Model;
 
-import java.util.LinkedList;
 
 public abstract class Participant {
 
     private int chipsValue=1000;
     private int chipsOnTable=0;
+
+    private String positionOnTable;
     private Participant leftParticipant;
     private String name;
 
@@ -14,17 +15,48 @@ public abstract class Participant {
     private int cardTwox;
     private int cardTwoy;
 
+    private Card cardOne;
+    private Card cardTwo;
+
     private int width;
     private int height;
 
     public void tick() {
     }
+
     public void render(){
 
+    }
+    public void setPositionOnTable(String s){
+        positionOnTable=s;
+    }
+    public String getPositionOnTable(){
+        return positionOnTable;
+    }
+    public Card getCardOne(){
+        return cardOne;
+    }
+
+    public Card getCardTwo(){
+        return cardTwo;
+    }
+
+    public void setCardOne(Card card){
+        cardOne = card;
+    }
+
+    public void setCardTwo(Card card){
+        cardTwo = card;
+    }
+    public void giveParticipantsCards(Card cardOne, Card cardTwo){
+        this.cardOne = cardOne;
+        this.cardTwo = cardTwo;
     }
     public void addToChipsOnTable(int val){
         chipsOnTable =chipsOnTable+val;
     }
+
+
     public int getChipsOnTable(){
         return chipsOnTable;
     }
@@ -41,9 +73,11 @@ public abstract class Participant {
         return name;
 
     }
+
     public void setName(String s){
         name=s;
     }
+
     public Participant getLeftParticipant(){
         return leftParticipant;
     }
@@ -51,6 +85,7 @@ public abstract class Participant {
     public void setLeftParticipant(Participant participant) {
         this.leftParticipant = participant;
     }
+
     public void addToChipsValue(int newVal){
         chipsValue+=newVal;
     }

@@ -11,12 +11,13 @@ public class Dealer {
     private Participant smallBlind;
     private int bigBlindValue=2;
     private int smallBlindValue=1;
+    private Participant currentParticipant;
 
     private LinkedList<Card> deck;
     private LinkedList<Bot> bots;
     private Player player;
 
-    private String state="preflop";
+    private String state="newgame";
 
     private int currentPot=0;
     private int callRequirement=100;
@@ -38,18 +39,28 @@ public class Dealer {
         this.height=height;
         this.world=world;
 
-        setFirstBlinds();
-
+        for (Participant p: world.participants) {
+            p.giveParticipantsCards(deck.getFirst(),deck.getFirst());
+        }
 
 
     }
     public void tick(){
-        if(state.equals("preflop")) {
+        if(state.equals("newgame")){
+            newgametick();
+        }
+        else if(state.equals("preflop")) {
             preflopTick();
         }
+        currentParticipant=currentParticipant.getLeftParticipant();
     }
     public void preflopTick(){
-
+        currentParticipant.tick();
+    }
+    public void newgametick(){
+        setFirstBlinds();
+        state="preflop";
+        currentParticipant=bigBlind;
     }
     public void render(Graphics g){
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -123,10 +134,10 @@ public class Dealer {
     private void setFirstBlinds(){
         Random r = new Random();
         int pos = r.nextInt(world.participants.size()-1)+1;
-        bigBlind = world.participants.get(pos);
+        smallBlind = world.participants.get(pos);
+        smallBlind.addToChipsOnTable(smallBlindValue);
+        bigBlind = smallBlind.getLeftParticipant();
         bigBlind.addToChipsOnTable(bigBlindValue);
+
     }
-
-
-
 }

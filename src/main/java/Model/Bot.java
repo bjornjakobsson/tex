@@ -9,11 +9,8 @@ public class Bot extends  Participant{
     private String difficilty;
 
     private int positionOnTable;
-    private String botName;
 
     private boolean myTurn=false;
-    private Card botCardOne;
-    private Card botCardTwo;
 
     public Bot(String difficilty, int positionOnTable, int width, int height){
         this.difficilty=difficilty;
@@ -32,7 +29,7 @@ public class Bot extends  Participant{
         int width = getWidth();
         int height = getHeight();
         if(positionOnTable==0){
-            botName="Top";
+            setPositionOnTable("top");
             cardOnex=width/2-50;
             cardOney=height/30;
 
@@ -46,7 +43,7 @@ public class Bot extends  Participant{
             setCardTwoy(cardTwoy);
         }
         else if(positionOnTable==1){
-           botName="Right";
+            setPositionOnTable("right");
             cardOnex=width-(width/5)+(width/100);
             cardOney=height/3;
 
@@ -60,7 +57,7 @@ public class Bot extends  Participant{
             setCardTwoy(cardTwoy);
         }
         else{
-            botName="Bottom";
+            setPositionOnTable("bottom");
             cardOnex=width/2-50;
             cardOney=height-(height/3)-10;
 
@@ -76,18 +73,14 @@ public class Bot extends  Participant{
     }
     @Override
     public void tick(){
-        if(!myTurn){
-            return;
-        }
-        else{
-            System.out.println(botName+"s turn");
-        }
+        System.out.println(getName()+"s turn");
+
     }
     public void render(Graphics g){
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 
-        g.drawImage(botCardOne.getImage(),getCardOnex(),getCardOney(),null);
-        g.drawImage(botCardTwo.getImage(),getCardTwox(),getCardTwoy(),null);
+        g.drawImage(getCardOne().getImage(),getCardOnex(),getCardOney(),null);
+        g.drawImage(getCardTwo().getImage(),getCardTwox(),getCardTwoy(),null);
 
         g.drawString(Integer.toString(getChipsValue()),getCardOnex()+20,getCardOney()+200);
 
@@ -98,15 +91,4 @@ public class Bot extends  Participant{
 
 
     }
-    public void startBotTurn(){
-        myTurn=true;
-    }
-    public void endBotTurn(){
-        myTurn=false;
-    }
-    public void giveBotCards(Card cardOne, Card cardTwo){
-        this.botCardOne = cardOne;
-        this.botCardTwo = cardTwo;
-    }
-
 }
