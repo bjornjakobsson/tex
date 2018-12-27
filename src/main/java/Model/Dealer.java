@@ -6,15 +6,11 @@ import java.util.Random;
 
 public class Dealer {
 
-
     private Participant bigBlind;
     private Participant smallBlind;
     private int bigBlindValue=2;
     private int smallBlindValue=1;
     private Participant currentParticipant;
-    private LinkedList<Card> deck;
-    private LinkedList<Bot> bots;
-    private Player player;
 
     private String state="newgame";
 
@@ -26,54 +22,72 @@ public class Dealer {
 
     private World world;
 
-    public Dealer(int width, int height, Player player, LinkedList<Bot> bots, LinkedList<Card> deck, World world){
-        this.player = new Player(width,height);
-        this.player = player;
-        this.bots = bots;
-        this.deck = deck;
+    /**
+     * Constructor for Dealer
+     * @param width
+     * @param height
+     * @param deck
+     * @param world
+     */
+    public Dealer(int width, int height, LinkedList<Card> deck, World world){
         this.width=width;
         this.height=height;
         this.world=world;
-
         for (Participant p: world.participants) {
             p.giveParticipantsCards(deck.getFirst(),deck.getFirst());
         }
-
-
     }
+
+    /**
+     * Main game loop
+     */
     public void tick(){
         if(state.equals("newgame")){
-            newgametick();
+            newGametick();
         }
         else if(state.equals("preflop")) {
-            preflopTick();
+            preFlopTick();
         }
+        currentParticipant.setAction(new Action("NONE"));
         currentParticipant=currentParticipant.getLeftParticipant();
     }
 
     /**
-     * Logic for what should happen preflop
+     * Logic for what should happen pre flop
      */
-    public void preflopTick(){
+    public void preFlopTick(){
+        
         if(currentParticipant.hasFolded){
             return;
         }
         Action action = currentParticipant.tick();
-        System.out.println(currentParticipant.getName()+ " "+action.getTheAction());
-        if(action.getTheAction().equals("FOLD")){
+        System.out.println(currentParticipant.getName()+ " "+currentParticipant.getTheAction().getTheActionString());
+        if(action.getTheActionString().equals("FOLD")){
             currentParticipant.hasFolded=true;
         }
-
     }
-    public void newgametick(){
+
+    /**
+     * Logic for what happends when a new game starts.
+     */
+    public void newGametick(){
         setFirstBlinds();
         state="preflop";
         currentParticipant=bigBlind;
     }
+
+    /**
+     * Render method for the dealer
+     * @param g
+     */
     public void render(Graphics g){
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
         g.drawString(Integer.toString(currentPot),width/2,height/2);
     }
+
+    /**
+     * Sets blinds for a new game.
+     */
     private void setFirstBlinds(){
         Random r = new Random();
         int pos = r.nextInt(world.participants.size()-1)+1;

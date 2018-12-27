@@ -10,6 +10,7 @@ public abstract class Participant {
     private Participant leftParticipant;
     private String name;
     public boolean hasFolded=false;
+    private Action theAction = new Action("NONE");
 
     private int cardOnex;
     private int cardOney;
@@ -29,6 +30,12 @@ public abstract class Participant {
 
     public void render(){
 
+    }
+    public void setAction(Action theAction){
+        this.theAction = theAction;
+    }
+    public Action getTheAction(){
+        return theAction;
     }
     public void setPositionOnTable(String s){
         positionOnTable=s;

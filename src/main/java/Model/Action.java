@@ -30,7 +30,7 @@ public class Action {
     public void setTheAction(String s){
         theAction=s;
     }
-    public String getTheAction(){
+    public String getTheActionString(){
         return theAction;
     }
     public int getRaiseValue(){

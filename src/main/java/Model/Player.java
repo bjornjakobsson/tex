@@ -10,15 +10,20 @@ public class Player extends Participant {
     private int width;
     private int height;
 
-    private Action theAction=new Action("NONE");
-
-
-
+    /**
+     * Constructor for Player
+     * @param width
+     * @param height
+     */
     public Player(int width, int height){
         this.width= width;
         this.height=height;
         findPosition();
     }
+
+    /**
+     * Calculates the players rendering position on the board
+     */
     private void findPosition(){
         setCardOnex(width/2-width/3-cardSeperator);
         setCardOney(height/3+12);
@@ -34,10 +39,8 @@ public class Player extends Participant {
      */
     @Override
     public Action tick(){
-        while(theAction.getTheAction().equals("NONE")){
-            System.out.println("Players turn");
-        }
-        return theAction;
+      //  System.out.println("Player ticks");
+        return getTheAction();
     }
     public void render(Graphics g){
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -49,8 +52,5 @@ public class Player extends Participant {
       g.drawString(Integer.toString(getChipsOnTable()),getCardTwox()+130,getCardTwoy()+70);
 
       g.drawString(getName(),getCardOnex()+20,getCardTwoy()-10);
-    }
-    public void setAction(String string){
-        theAction.setTheAction(string);
     }
 }

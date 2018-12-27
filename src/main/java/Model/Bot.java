@@ -77,9 +77,9 @@ public class Bot extends  Participant{
      */
     @Override
     public Action tick(){
-        Action action = new Action("FOLD");
+        Action action = new Action("CHECK");
+      //  System.out.println(getName()+" ticks");
         return action;
-        //System.out.println(getName()+"s turn");
     }
     public void render(Graphics g){
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));

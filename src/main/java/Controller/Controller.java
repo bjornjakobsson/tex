@@ -139,7 +139,6 @@ public class Controller implements Runnable {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             model.getGame().getWorld().playerCall();
-            System.out.println("PLAYER CALL");
         }
     }
     private class CheckButtonActionListener implements ActionListener{
@@ -168,7 +167,7 @@ public class Controller implements Runnable {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             String ammount = gameView.getRaiseTextField().getText();
-            model.getGame().getWorld().playerRaise(ammount);
+           // model.getGame().getWorld().playerRaise(ammount);
         }
     }
 
