@@ -62,13 +62,14 @@ public class World {
      * Adds all bots and the player to a list of all participants. Also generates names for everyone
      */
     private void setUpParticipants(){
-        participants.add(player);
+
         participants.addAll(bots);
         generateNames();
         giveNameToBots();
+        participants.add(player);
         setLeftParticipans();
         for (Participant p: participants) {
-            System.out.println("I am: "+p.getName()+" to my left is: "+p.getLeftParticipant().getName());
+            //System.out.println("I am: "+p.getName()+" to my left is: "+p.getLeftParticipant().getName());
         }
     }
 
@@ -79,6 +80,7 @@ public class World {
         player = new Player(settings.getWidth(),settings.getHeight());
         player.giveParticipantsCards(deck.get(1),deck.get(1));
         player.setPositionOnTable("player");
+        player.setName("Player");
     }
 
     /**

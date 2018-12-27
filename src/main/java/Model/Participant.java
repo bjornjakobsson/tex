@@ -9,6 +9,7 @@ public abstract class Participant {
     private String positionOnTable;
     private Participant leftParticipant;
     private String name;
+    public boolean hasFolded=false;
 
     private int cardOnex;
     private int cardOney;
@@ -21,7 +22,9 @@ public abstract class Participant {
     private int width;
     private int height;
 
-    public void tick() {
+    public Action tick() {
+        Action action = new Action();
+        return action;
     }
 
     public void render(){

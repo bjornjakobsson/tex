@@ -71,10 +71,15 @@ public class Bot extends  Participant{
             setCardTwoy(cardTwoy);
         }
     }
-    @Override
-    public void tick(){
-        System.out.println(getName()+"s turn");
 
+    /**
+     * Logic for bot actions
+     */
+    @Override
+    public Action tick(){
+        Action action = new Action("FOLD");
+        return action;
+        //System.out.println(getName()+"s turn");
     }
     public void render(Graphics g){
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -82,8 +87,7 @@ public class Bot extends  Participant{
         g.drawImage(getCardOne().getImage(),getCardOnex(),getCardOney(),null);
         g.drawImage(getCardTwo().getImage(),getCardTwox(),getCardTwoy(),null);
 
-        g.drawString(Integer.toString(getChipsValue()),getCardOnex()+20,getCardOney()+200);
-
+        g.drawString(Integer.toString(getChipsValue()),getCardOnex()+20,getCardOney()+180);
 
         g.drawString(Integer.toString(getChipsOnTable()),getCardTwox()+130,getCardTwoy()+70);
 

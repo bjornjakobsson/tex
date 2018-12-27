@@ -10,10 +10,9 @@ public class Player extends Participant {
     private int width;
     private int height;
 
-    private String Action="NONE";
+    private Action theAction=new Action("NONE");
 
-    private boolean myTurn=true;
-    private boolean folded=false;
+
 
     public Player(int width, int height){
         this.width= width;
@@ -27,9 +26,18 @@ public class Player extends Participant {
         setCardTwox(width/2-width/3);
         setCardTwoy(height/3+12);
     }
+
+    /**
+     * Logic for what the player does on his/her turn.
+     * When its the players turn and a button is pressed, the dealer should validate
+     * the action and change the players action to NONE again.
+     */
     @Override
-    public void tick(){
-        System.out.println("Player turn");
+    public Action tick(){
+        while(theAction.getTheAction().equals("NONE")){
+            System.out.println("Players turn");
+        }
+        return theAction;
     }
     public void render(Graphics g){
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -43,9 +51,6 @@ public class Player extends Participant {
       g.drawString(getName(),getCardOnex()+20,getCardTwoy()-10);
     }
     public void setAction(String string){
-        Action = string;
-    }
-    public void setFolded(boolean val){
-        folded = val;
+        theAction.setTheAction(string);
     }
 }
