@@ -11,8 +11,10 @@ public class Dealer {
     private int bigBlindValue=2;
     private int smallBlindValue=1;
     private Participant currentParticipant;
+    private boolean actionHappened = true;
 
     private String state="newgame";
+    private Action theAction = new Action();
 
     private int currentPot=0;
     private int callRequirement=100;
@@ -42,27 +44,35 @@ public class Dealer {
      * Main game loop
      */
     public void tick(){
+        actionHappened=true;
         if(state.equals("newgame")){
             newGametick();
         }
         else if(state.equals("preflop")) {
             preFlopTick();
         }
-        currentParticipant.setAction(new Action("NONE"));
-        currentParticipant=currentParticipant.getLeftParticipant();
+        if(actionHappened){
+            currentParticipant.setAction(new Action("NONE"));
+            currentParticipant=currentParticipant.getLeftParticipant();
+        }
     }
 
     /**
      * Logic for what should happen pre flop
      */
     public void preFlopTick(){
-        
         if(currentParticipant.hasFolded){
             return;
         }
-        Action action = currentParticipant.tick();
-        System.out.println(currentParticipant.getName()+ " "+currentParticipant.getTheAction().getTheActionString());
-        if(action.getTheActionString().equals("FOLD")){
+        theAction = currentParticipant.tick();
+        if(theAction.getTheActionString().equals("NONE")){
+            //System.out.println("Returns");
+            actionHappened=false;
+            return;
+        }else{
+            System.out.println(currentParticipant.getName()+ " "+currentParticipant.getTheAction().getTheActionString());
+        }
+        if(theAction.getTheActionString().equals("FOLD")){
             currentParticipant.hasFolded=true;
         }
     }
