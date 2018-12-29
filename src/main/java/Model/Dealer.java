@@ -52,6 +52,8 @@ public class Dealer {
             preFlopTick();
         }
         if(actionHappened){
+            world.sendMessageToLogBox(currentParticipant.getName()+" "+
+                    currentParticipant.getTheAction().getTheActionString()+"\n");
             currentParticipant.setAction(new Action("NONE"));
             currentParticipant=currentParticipant.getLeftParticipant();
         }
@@ -65,15 +67,13 @@ public class Dealer {
             return;
         }
         theAction = currentParticipant.tick();
+        if(!isActionValid(theAction)){
+            actionHappened=false;
+
+        }
         if(theAction.getTheActionString().equals("NONE")){
             actionHappened=false;
             return;
-        }else{
-          //  System.out.println(currentParticipant.getName()+ " "+currentParticipant.getTheAction().getTheActionString());
-            currentPot++;
-        }
-        if(theAction.getTheActionString().equals("FOLD")){
-            currentParticipant.hasFolded=true;
         }
     }
 
@@ -86,6 +86,34 @@ public class Dealer {
         currentParticipant=bigBlind;
     }
 
+    /**
+     * Checks if the participants action is valid or not.
+     * @param theAction
+     * @return
+     */
+    private boolean isActionValid(Action theAction){
+        if(theAction.getTheActionString().equals("NONE")){
+            actionHappened=false;
+            return true;
+        }
+        else if(theAction.getTheActionString().equals("CHECK")){
+            //Check logic
+            return true;
+        }else if(theAction.getTheActionString().equals("CALL")){
+            //Call logic
+            return true;
+        }else if(theAction.getTheActionString().equals("RAISE")){
+            //Raise logic
+            return true;
+        }else if(theAction.getTheActionString().equals("ALLIN")){
+            //All in logic
+            return true;
+        }else if(theAction.getTheActionString().equals("FOLD")){
+            currentParticipant.hasFolded=true;
+            return true;
+        }
+        return false;
+    }
     /**
      * Render method for the dealer
      * @param g
@@ -102,9 +130,9 @@ public class Dealer {
         Random r = new Random();
         int pos = r.nextInt(world.participants.size()-1)+1;
         smallBlind = world.participants.get(pos);
-        smallBlind.addToChipsOnTable(smallBlindValue);
+        smallBlind.increaseChipsBetted(smallBlindValue);
         bigBlind = smallBlind.getLeftParticipant();
-        bigBlind.addToChipsOnTable(bigBlindValue);
+        bigBlind.increaseChipsBetted(bigBlindValue);
 
     }
 }

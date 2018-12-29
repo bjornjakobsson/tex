@@ -60,6 +60,7 @@ public class Controller implements Runnable {
     }
     private void addActionListenersToGameMenus(){
         gameView.addActionListernerToExitButton(new ExitGameViewButtonListener());
+        gameView.addActionListenerToClearButton(new ClearActionListener());
     }
     private void addActionListenersToSettingMenu(){
         settingsView.getApplyButton().addActionListener(new ApplySettingsButtonListener());
@@ -170,6 +171,16 @@ public class Controller implements Runnable {
             String ammount = gameView.getRaiseTextField().getText();
            // model.getGame().getWorld().playerRaise(ammount);
         }
+    }
+    private class ClearActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            gameView.getLoggTextArea().setText("");
+        }
+    }
+    public GameView getGameView(){
+        return gameView;
     }
 
 }

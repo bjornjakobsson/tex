@@ -31,6 +31,7 @@ public class GameView {
     private JButton raiseButton;
     private JButton foldButton;
     private JButton allInButton;
+    private JButton clearLogPanelButton;
 
     //Text fields
     private JTextField raiseTextField;
@@ -131,8 +132,10 @@ public class GameView {
         raiseButton = new JButton("Raise");
         raiseTextField = new JTextField("",width/120);
 
+        clearLogPanelButton = new JButton("Clear");
         loggTextArea = new JTextArea(5,25);
         loggScrollPane = new JScrollPane(loggTextArea);
+        fillerPanel.add(clearLogPanelButton);
         fillerPanel.add(loggScrollPane);
 
         actionPanel.add(checkButton);
@@ -141,10 +144,6 @@ public class GameView {
         actionPanel.add(allInButton);
         actionPanel.add(raiseButton);
         actionPanel.add(raiseTextField);
-
-
-
-
     }
     /**
      * Initiates the side menu buttons.
@@ -184,6 +183,14 @@ public class GameView {
      */
     public void addActionListernerToExitButton(ActionListener actionListener){
         exitButton.addActionListener(actionListener);
+    }
+
+    /**
+     * Adds and ActionListener to the clear button.
+     * @param actionListener
+     */
+    public void addActionListenerToClearButton(ActionListener actionListener){
+        clearLogPanelButton.addActionListener(actionListener);
     }
     /**
      * Graphical stuff for the buttons.

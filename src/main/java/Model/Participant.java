@@ -5,8 +5,8 @@ import java.awt.*;
 
 public abstract class Participant {
 
-    private int chipsValue=1000;
-    private int chipsOnTable=0;
+    private int chipsNotBetted=1000;
+    private int chipsBetted=0;
 
     private String positionOnTable;
     private Participant leftParticipant;
@@ -64,38 +64,46 @@ public abstract class Participant {
         this.cardOne = cardOne;
         this.cardTwo = cardTwo;
     }
-    public void addToChipsOnTable(int val){
-        chipsOnTable =chipsOnTable+val;
-    }
-    public int getChipsOnTable(){
-        return chipsOnTable;
-    }
-    public int getChipsValue() {
-        return chipsValue;
-    }
-    public void setChipsValue(int chipsValue) {
-        this.chipsValue = chipsValue;
-    }
+
     public String getName(){
         return name;
 
     }
+
     public void setName(String s){
         name=s;
     }
+
     public Participant getLeftParticipant(){
         return leftParticipant;
     }
+
+    public int getChipsBetted() {
+        return chipsBetted;
+    }
+
+    public int getChipsNotBetted(){
+        return chipsNotBetted;
+    }
+
+    public void increaseChipsNotBetted(int val){
+        chipsNotBetted+=val;
+    }
+
+    public void increaseChipsBetted(int val){
+        chipsBetted+=val;
+    }
+
+    public void setChipsBetted(int val){
+        chipsBetted=val;
+    }
+
+    public void setChipsNotBetted(int val){
+        chipsNotBetted=val;
+    }
+
     public void setLeftParticipant(Participant participant) {
         this.leftParticipant = participant;
-    }
-
-    public void addToChipsValue(int newVal){
-        chipsValue+=newVal;
-    }
-
-    public void setChipsOnTable(int chipsOnTable) {
-        this.chipsOnTable = chipsOnTable;
     }
 
     public int getCardOnex() {

@@ -43,14 +43,16 @@ public class Player extends Participant {
     }
     @Override
     public void render(Graphics g){
+        // Borde kunna flytta allt detta till en metod i participant.
+
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 
-      g.drawImage(getCardOne().getImage(),getCardOnex(),getCardOney(),null);
-      g.drawImage(getCardTwo().getImage(),getCardTwox(),getCardTwoy(),null);
-      g.drawString(Integer.toString(getChipsValue()),getCardOnex()+80,getCardOney()+200);
+        g.drawImage(getCardOne().getImage(),getCardOnex(),getCardOney(),null);
+        g.drawImage(getCardTwo().getImage(),getCardTwox(),getCardTwoy(),null);
 
-      g.drawString(Integer.toString(getChipsOnTable()),getCardTwox()+130,getCardTwoy()+70);
+        g.drawString(Integer.toString(getChipsBetted()),getCardOnex()+80,getCardOney()+200);
+        g.drawString(Integer.toString(getChipsNotBetted()),getCardTwox()+110,getCardTwoy()+70);
 
-      g.drawString(getName(),getCardOnex()+20,getCardTwoy()-10);
+        g.drawString(getName(),getCardOnex()+20,getCardTwoy()-10);
     }
 }

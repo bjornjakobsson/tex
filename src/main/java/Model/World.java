@@ -164,5 +164,13 @@ public class World {
         return dealer;
     }
 
+    /**
+     * Sends a message to the log box.
+     * @param msg
+     */
+    public void sendMessageToLogBox(String msg){
+        settings.getController().getGameView().getLoggTextArea().append(msg);
+    }
+
 }
 
