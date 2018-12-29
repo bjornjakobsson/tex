@@ -3,8 +3,7 @@ package Model;
 import java.awt.*;
 
 
-public class Bot extends  Participant{
-    private int x = 0;
+public class Bot extends  Participant {
     private int positionOnTable;
 
     /**
@@ -90,6 +89,7 @@ public class Bot extends  Participant{
      */
     @Override
     public void render(Graphics g){
+
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 
         g.drawImage(getCardOne().getImage(),getCardOnex(),getCardOney(),null);
@@ -99,9 +99,7 @@ public class Bot extends  Participant{
 
         g.drawString(Integer.toString(getChipsOnTable()),getCardTwox()+130,getCardTwoy()+70);
 
-        g.drawString(Integer.toString(x),getCardOnex()+20,getCardOney()-10);
-        x++;
-
+        g.drawString(getName(),getCardOnex()+20,getCardOney()-10);
 
     }
 }

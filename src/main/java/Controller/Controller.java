@@ -7,6 +7,7 @@ import View.StartMenuView;
 import View.SettingsView;
 import View.View;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -104,7 +105,7 @@ public class Controller implements Runnable {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             model.exitGame();
-            System.out.println(java.lang.Thread.activeCount());
+            gameView.getExitButton().setForeground(Color.BLACK);
             view.changeView(startMenuView.getStartMenuView());
         }
     }

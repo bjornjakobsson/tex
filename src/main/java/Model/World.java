@@ -49,6 +49,7 @@ public class World {
      * Every render call renders every object currently active in the world.
      */
     public void render(Graphics g) {
+        g.clearRect(0,0,settings.getWidth(),settings.getHeight());
         for (Participant p:participants) {
             p.render(g);
         }

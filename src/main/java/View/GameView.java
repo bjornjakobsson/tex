@@ -223,6 +223,8 @@ public class GameView {
     /*
     Getters and setters
      */
+    public JButton getExitButton(){return exitButton;}
+
     public JButton getCallButton() {
         return callButton;
     }
