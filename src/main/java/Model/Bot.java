@@ -4,7 +4,7 @@ import java.awt.*;
 
 
 public class Bot extends  Participant{
-
+    private int x = 0;
     private int positionOnTable;
 
     /**
@@ -88,6 +88,7 @@ public class Bot extends  Participant{
      * Render method for bots
      * @param g
      */
+    @Override
     public void render(Graphics g){
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 
@@ -98,7 +99,8 @@ public class Bot extends  Participant{
 
         g.drawString(Integer.toString(getChipsOnTable()),getCardTwox()+130,getCardTwoy()+70);
 
-        g.drawString(getName(),getCardOnex()+20,getCardOney()-10);
+        g.drawString(Integer.toString(x),getCardOnex()+20,getCardOney()-10);
+        x++;
 
 
     }

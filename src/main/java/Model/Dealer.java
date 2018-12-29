@@ -69,7 +69,8 @@ public class Dealer {
             actionHappened=false;
             return;
         }else{
-            System.out.println(currentParticipant.getName()+ " "+currentParticipant.getTheAction().getTheActionString());
+          //  System.out.println(currentParticipant.getName()+ " "+currentParticipant.getTheAction().getTheActionString());
+            currentPot++;
         }
         if(theAction.getTheActionString().equals("FOLD")){
             currentParticipant.hasFolded=true;

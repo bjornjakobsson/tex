@@ -49,9 +49,8 @@ public class World {
      * Every render call renders every object currently active in the world.
      */
     public void render(Graphics g) {
-        player.render(g);
-        for (Bot bot : bots) {
-           bot.render(g);
+        for (Participant p:participants) {
+            p.render(g);
         }
         dealer.render(g);
     }

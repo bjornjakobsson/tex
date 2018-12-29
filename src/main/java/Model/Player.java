@@ -39,9 +39,9 @@ public class Player extends Participant {
      */
     @Override
     public Action tick(){
-      //  System.out.println("Player ticks");
         return getTheAction();
     }
+    @Override
     public void render(Graphics g){
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 

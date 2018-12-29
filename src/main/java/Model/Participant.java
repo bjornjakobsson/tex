@@ -1,6 +1,8 @@
 package Model;
 
 
+import java.awt.*;
+
 public abstract class Participant {
 
     private int chipsValue=1000;
@@ -28,7 +30,7 @@ public abstract class Participant {
         return action;
     }
 
-    public void render(){
+    public void render(Graphics g){
 
     }
     public void setAction(Action theAction){
