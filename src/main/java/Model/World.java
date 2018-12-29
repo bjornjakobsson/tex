@@ -37,6 +37,9 @@ public class World {
         setUpPlayer();
         setUpParticipants();
         dealer = new Dealer(settings.getWidth(),settings.getHeight(),deck,this);
+        for (Participant p: participants) {
+            p.setDealer(dealer);
+        }
     }
     /**
      * Every tick updates the different objects currently active in the world.

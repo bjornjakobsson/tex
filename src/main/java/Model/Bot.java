@@ -17,6 +17,7 @@ public class Bot extends  Participant {
         setWidth(width);
         setHeight(height);
         findBotPosition();
+
     }
 
     /**
@@ -79,7 +80,13 @@ public class Bot extends  Participant {
      */
     @Override
     public Action tick(){
-        setAction(new Action("CHECK"));
+        //This setAction generates buggs, but is here for other debugging purposes.
+        if(getChipsNotBetted()>=getDealer().getCallRequirement()){
+            setAction(new Action("CALL"));
+            //increaseChipsBetted(getDealer().getCallRequirement());
+        }else{
+            setAction(new Action("FOLD"));
+        }
         return getTheAction();
     }
 

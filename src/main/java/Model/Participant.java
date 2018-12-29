@@ -10,6 +10,8 @@ public abstract class Participant {
 
     private String positionOnTable;
     private Participant leftParticipant;
+    private Dealer dealer;
+
     private String name;
     public boolean hasFolded=false;
     private Action theAction = new Action("NONE");
@@ -152,5 +154,12 @@ public abstract class Participant {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public void setDealer(Dealer dealer){
+        this.dealer=dealer;
+    }
+    public Dealer getDealer(){
+        return dealer;
     }
 }

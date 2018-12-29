@@ -44,10 +44,8 @@ public class Controller implements Runnable {
         addActionListenersToSettingMenu();
         addActionListenerToGameButtons();
     }
-    public void printMessageToViewLoggBox(String s){
-        gameView.getLoggTextArea().append(s);
-    }
-    public void clearGameLoggBox(){
+
+    public void clearGameLogBox(){
         gameView.getLoggTextArea().setText("");
     }
     /**
@@ -80,7 +78,7 @@ public class Controller implements Runnable {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            clearGameLoggBox();
+            clearGameLogBox();
             view.changeView(gameView.getGameView());
             model.initGame(gameView.getGameCanvas(), settings);
 
@@ -176,7 +174,7 @@ public class Controller implements Runnable {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            gameView.getLoggTextArea().setText("");
+            clearGameLogBox();
         }
     }
     public GameView getGameView(){
