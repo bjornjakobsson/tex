@@ -65,33 +65,25 @@ public abstract class Participant {
     public void addToChipsOnTable(int val){
         chipsOnTable =chipsOnTable+val;
     }
-
-
     public int getChipsOnTable(){
         return chipsOnTable;
     }
-
     public int getChipsValue() {
         return chipsValue;
     }
-
     public void setChipsValue(int chipsValue) {
         this.chipsValue = chipsValue;
     }
-
     public String getName(){
         return name;
 
     }
-
     public void setName(String s){
         name=s;
     }
-
     public Participant getLeftParticipant(){
         return leftParticipant;
     }
-
     public void setLeftParticipant(Participant participant) {
         this.leftParticipant = participant;
     }

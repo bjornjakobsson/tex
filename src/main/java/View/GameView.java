@@ -47,11 +47,20 @@ public class GameView {
     private int width;
     private int height;
 
+    /**
+     * Constructor for GameView
+     * @param width
+     * @param height
+     */
     public GameView(int width, int height){
         this.width = width;
         this.height = height;
     }
 
+    /**
+     * Creates the Game View, all methods are called upon
+     * from here.
+     */
     public void createGameView(){
         initButtons();
         initButtonPanel();
@@ -66,7 +75,7 @@ public class GameView {
     }
 
     /**
-     * Initialises the game view.
+     * Initialises the main game view panel.
      */
     private void initGameView(){
         gameFrame = new JPanel();
@@ -86,7 +95,7 @@ public class GameView {
      */
     private void initBottomMenu(){
         bottomMenu = new JPanel();
-        bottomMenu.setPreferredSize(new Dimension(width,height/10));
+        bottomMenu.setPreferredSize(new Dimension(width,height/8+5));
         bottomMenu.setLayout(new BorderLayout());
     }
 
@@ -95,13 +104,12 @@ public class GameView {
      */
     private void initButtonPanel(){
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(2,1,0,0));
-        buttonPanel.setPreferredSize(new Dimension(width/10,height/6));
+        buttonPanel.setLayout(new GridLayout(1,2,0,0));
+        buttonPanel.setPreferredSize(new Dimension(width/10,height/10));
 
         buttonPanel.add(muteButton);
         buttonPanel.add(exitButton);
     }
-
 
     /**
      * Initiates the info panel. Current money, time etc.
@@ -109,10 +117,8 @@ public class GameView {
     private void initInfoPanel(){
         actionPanel = new JPanel(new GridBagLayout());
         fillerPanel = new JPanel();
-        //actionPanel.setBackground(Color.BLACK);
         infoPanel = new JPanel();
         infoPanel.setPreferredSize(new Dimension(width- (width/8),height/6));
-       // infoPanel.setBackground(Color.decode("#001a4d"));
         infoPanel.setLayout(new BorderLayout());
         infoPanel.add(actionPanel, BorderLayout.WEST);
         infoPanel.add(fillerPanel, BorderLayout.EAST);
@@ -125,7 +131,7 @@ public class GameView {
         raiseButton = new JButton("Raise");
         raiseTextField = new JTextField("",width/120);
 
-        loggTextArea = new JTextArea(height/100,width/60);
+        loggTextArea = new JTextArea(5,25);
         loggScrollPane = new JScrollPane(loggTextArea);
         fillerPanel.add(loggScrollPane);
 
@@ -164,12 +170,18 @@ public class GameView {
         }
     }
 
-    public JPanel getGameView(){
-        return gameFrame;
-    }
+    /**
+     * Returns the game canvas, all game components are being rendered
+     * on the game canvas.
+     * @return
+     */
     public Canvas getGameCanvas(){
         return canvas;
     }
+    /**
+     * Adds an ActionListener to the exit button.
+     * @param actionListener
+     */
     public void addActionListernerToExitButton(ActionListener actionListener){
         exitButton.addActionListener(actionListener);
     }
@@ -197,19 +209,20 @@ public class GameView {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            button.setFont(largerButtonFont);
+            button.setForeground(Color.GRAY);
+            //button.setFont(largerButtonFont);
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            button.setFont(normalButtonFont);
+            button.setForeground(Color.BLACK);
+          //  button.setFont(normalButtonFont);
         }
     }
 
-    public JPanel getGameFrame() {
-        return gameFrame;
-    }
-
+    /*
+    Getters and setters
+     */
     public JButton getCallButton() {
         return callButton;
     }
@@ -236,5 +249,9 @@ public class GameView {
 
     public JTextArea getLoggTextArea(){
         return loggTextArea;
+    }
+
+    public JPanel getGameView(){
+        return gameFrame;
     }
 }
