@@ -79,7 +79,7 @@ public class World {
      */
     private void setUpBots(){
         for(int i=0;i<settings.getNumberOfBots();i++){
-            bots.add(new Bot(settings.getBotDiff(),i,settings.getWidth(),settings.getHeight()));
+            bots.add(new Bot(i,settings.getWidth(),settings.getHeight()));
         }
     }
     /**

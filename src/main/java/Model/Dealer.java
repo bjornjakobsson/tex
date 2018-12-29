@@ -66,7 +66,6 @@ public class Dealer {
         }
         theAction = currentParticipant.tick();
         if(theAction.getTheActionString().equals("NONE")){
-            //System.out.println("Returns");
             actionHappened=false;
             return;
         }else{

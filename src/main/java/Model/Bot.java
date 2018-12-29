@@ -5,21 +5,24 @@ import java.awt.*;
 
 public class Bot extends  Participant{
 
-
-    private String difficilty;
-
     private int positionOnTable;
 
-    private boolean myTurn=false;
-
-    public Bot(String difficilty, int positionOnTable, int width, int height){
-        this.difficilty=difficilty;
+    /**
+     * Constructor for Bot
+     * @param positionOnTable
+     * @param width
+     * @param height
+     */
+    public Bot(int positionOnTable, int width, int height){
         this.positionOnTable=positionOnTable;
         setWidth(width);
         setHeight(height);
         findBotPosition();
-
     }
+
+    /**
+     * Calculates the rendering position for the bots
+     */
     private void findBotPosition(){
         int cardOnex;
         int cardOney;
@@ -77,10 +80,14 @@ public class Bot extends  Participant{
      */
     @Override
     public Action tick(){
-       // Action action = new Action("CHECK");
-      //  System.out.println(getName()+" ticks");
-        return new Action("CALL");
+        setAction(new Action("CHECK"));
+        return getTheAction();
     }
+
+    /**
+     * Render method for bots
+     * @param g
+     */
     public void render(Graphics g){
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 
