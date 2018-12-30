@@ -110,8 +110,8 @@ public class Dealer {
         }
         else if(theAction.getTheActionString().equals("CHECK")){
             //Check validation logic
-            if(callRequirement>currentParticipant.getChipsBetted()){
-                errorMessage="Error: Can't check. You dont have enough money in the pot\n";
+            if(callRequirement > currentParticipant.getChipsBetted()){
+                errorMessage="Error: Can't check. You don't have enough money in the pot\n";
                 return false;
             }
             return true;

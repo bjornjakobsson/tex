@@ -102,11 +102,13 @@ public class Bot extends  Participant {
         g.drawImage(getCardOne().getImage(),getCardOnex(),getCardOney(),null);
         g.drawImage(getCardTwo().getImage(),getCardTwox(),getCardTwoy(),null);
 
-        g.drawString(Integer.toString(getChipsBetted()),getCardOnex()+20,getCardOney()+180);
+        g.drawString(Integer.toString(getChipsBetted()),getCardOnex()+80,getCardOney()+180);
 
-        g.drawString(Integer.toString(getChipsNotBetted()),getCardTwox()+130,getCardTwoy()+70);
+        g.drawString(Integer.toString(getChipsNotBetted()),getCardTwox()+110,getCardTwoy()+70);
 
         g.drawString(getName(),getCardOnex()+20,getCardOney()-10);
+
+       // g.drawRect(getDrawStartX(),getDrawStartY(),getDrawWidth(),getDrawHeight());
 
     }
 }

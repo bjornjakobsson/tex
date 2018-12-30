@@ -36,6 +36,8 @@ public class World {
         setUpBots();
         setUpPlayer();
         setUpParticipants();
+        setPositionOnTable();
+
         dealer = new Dealer(settings.getWidth(),settings.getHeight(),deck,this);
         for (Participant p: participants) {
             p.setDealer(dealer);
@@ -66,7 +68,7 @@ public class World {
         generateNames();
         giveNameToBots();
         participants.add(player);
-        setLeftParticipans();
+        //setLeftParticipans();
     }
     /**
      * Creates a new player.
@@ -81,6 +83,7 @@ public class World {
      * Creates all bots
      */
     private void setUpBots(){
+        settings.setNumberOfBots(5);
         for(int i=0;i<settings.getNumberOfBots();i++){
             bots.add(new Bot(i,settings.getWidth(),settings.getHeight()));
         }
@@ -108,6 +111,10 @@ public class World {
         names.add("Steve");
         names.add("Alice");
         names.add("Cindy");
+        names.add("Charles");
+        names.add("Mandy");
+        names.add("Joe");
+        names.add("Andy");
     }
     /**
      * Assigns names to bots
@@ -118,6 +125,42 @@ public class World {
             int pos = r.nextInt((names.size()-1)+1);
             participant.setName(names.get(pos));
             names.remove(pos);
+        }
+    }
+
+    private void setPositionOnTable(){
+        //w1440, h900
+        int i = 0;
+        for (Participant p : participants) {
+            if(i==0){
+                p.setDrawStartX(p.getDrawWidth()/4);
+                p.setDrawStartY(settings.getHeight()/3);
+            }else if(i == 1 || i == 2){
+                p.setDrawStartX((i*p.getDrawWidth())+(p.getDrawWidth()/4));
+                p.setDrawStartY(0);
+            }else if(i == 3){
+                p.setDrawStartX(i*p.getDrawWidth()+(p.getDrawWidth()/4));
+                p.setDrawStartY(settings.getHeight()/3);
+            }
+            else if(i == 4){
+                p.setDrawStartX(i*p.getDrawWidth()-p.getDrawWidth()*2+p.getDrawWidth()/4);
+                p.setDrawStartY(settings.getHeight()/2 + p.getDrawHeight()/3);
+            }else if(i == 5){
+                p.setDrawStartX(i*p.getDrawWidth()-p.getDrawWidth()*4+p.getDrawWidth()/4);
+                p.setDrawStartY(settings.getHeight()/2 + p.getDrawHeight()/3);
+                p.setPosAtTable(i);
+                p.setLeftParticipant(participants.get(0));
+            }
+            if(i!=5){
+                p.setLeftParticipant(participants.get(i+1));
+            }
+
+            p.setCardOnex(p.getDrawStartX());
+            p.setCardOney(p.getDrawStartY()+40);
+
+            p.setCardTwox(p.getCardOnex()+88);
+            p.setCardTwoy(p.getDrawStartY()+40);
+            i++;
         }
     }
     /**
