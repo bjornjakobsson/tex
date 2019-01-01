@@ -7,6 +7,7 @@ public abstract class Participant {
 
     private int chipsNotBetted=1000;
     private int chipsBetted=0;
+    private int callRequirement=0;
 
     private int posAtTable;
     private String positionOnTable;
@@ -111,6 +112,10 @@ public abstract class Participant {
         chipsBetted+=val;
     }
 
+    public void decreaseChipsBetted(int val){ chipsBetted-=val;}
+
+    public void decreaseChipsNotBetted(int val){chipsNotBetted-=val;}
+
     public void setChipsBetted(int val){
         chipsBetted=val;
     }
@@ -202,4 +207,8 @@ public abstract class Participant {
     public int getPosAtTable(){return posAtTable;}
 
     public void setPosAtTable(int val){posAtTable=val;}
+
+    public int getCallRequirement(){return callRequirement;}
+
+    public void setCallRequirement(int val){ callRequirement=val;}
 }

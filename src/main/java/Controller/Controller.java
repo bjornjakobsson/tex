@@ -167,6 +167,7 @@ public class Controller implements Runnable {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             String ammount = gameView.getRaiseTextField().getText();
+            model.getGame().getWorld().playerRaise(gameView.getRaiseTextField().getText());
            // model.getGame().getWorld().playerRaise(ammount);
         }
     }

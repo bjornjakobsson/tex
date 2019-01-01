@@ -18,18 +18,6 @@ public class Player extends Participant {
     public Player(int width, int height){
         this.width= width;
         this.height=height;
-        findPosition();
-    }
-
-    /**
-     * Calculates the players rendering position on the board
-     */
-    private void findPosition(){
-        setCardOnex(width/2-width/3-cardSeperator);
-        setCardOney(height/3+12);
-
-        setCardTwox(width/2-width/3);
-        setCardTwoy(height/3+12);
     }
 
     /**

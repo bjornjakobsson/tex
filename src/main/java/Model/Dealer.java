@@ -20,7 +20,8 @@ public class Dealer {
     private Action theAction = new Action();
 
     private int currentPot=0;
-    private int callRequirement=1;
+   // private int callRequirement=0;
+    private int highestRaise=0;
 
     private int width;
     private int height;
@@ -49,7 +50,8 @@ public class Dealer {
     public void tick(){
         actionHappened=true;
         errorOccured=false;
-
+        //current/senaste höjningen? - chipsBetted
+       // currentParticipant.setCallRequirement();
         executeGameState(state);
 
         if(actionHappened){
@@ -82,6 +84,8 @@ public class Dealer {
         else{
             executeAction();
         }
+
+        //Since the player cant respond as fast as the bots.
         if(theAction.getTheActionString().equals("NONE")){
             actionHappened=false;
             return;
@@ -108,31 +112,50 @@ public class Dealer {
             actionHappened=false;
             return true;
         }
+
         else if(theAction.getTheActionString().equals("CHECK")){
             //Check validation logic
-            if(callRequirement > currentParticipant.getChipsBetted()){
-                errorMessage="Error: Can't check. You don't have enough money in the pot\n";
+            if(currentParticipant.getCallRequirement() > currentParticipant.getChipsBetted()){
+                errorMessage="Error: Can't check. Not enough money in the pot "+
+                        currentParticipant.getCallRequirement() + " is required\n";
                 return false;
             }
             return true;
+
         }else if(theAction.getTheActionString().equals("CALL")){
             //Call validation logic
-            currentParticipant.increaseChipsBetted(callRequirement);
+            if(currentParticipant.getCallRequirement() > currentParticipant.getChipsNotBetted()){
+                errorMessage="Error: Can't call. Not enough money\n";
+                return false;
+            }
+            if(currentParticipant.getChipsBetted()>=currentParticipant.getCallRequirement()){
+                errorMessage="Error: Can't call. You already meet the call requirement\n";
+                return false;
+            }
             return true;
+
         }else if(theAction.getTheActionString().equals("RAISE")){
             //Raise validation logic
+            if(theAction.getRaiseValue() > currentParticipant.getChipsNotBetted()){
+                errorMessage="Error: Can't raise. Not enough money\n";
+                return false;
+            }
             return true;
+
         }else if(theAction.getTheActionString().equals("ALLIN")){
             //All in validation logic
             return true;
+
         }else if(theAction.getTheActionString().equals("FOLD")){
             // Fold validation logic
-            currentParticipant.hasFolded=true;
-            actionHappened=true;
             return true;
         }
         return false;
     }
+
+    /**
+     * Executes the actions. Should only be used after isActionValid has been called
+     */
     private void executeAction(){
         if(theAction.getTheActionString().equals("NONE")){
             //NONE logic
@@ -142,13 +165,26 @@ public class Dealer {
             //Check logic
         }else if(theAction.getTheActionString().equals("CALL")){
             //Call logic
-            currentParticipant.increaseChipsBetted(callRequirement);
+            int valueToBet=(currentParticipant.getCallRequirement() -currentParticipant.getChipsBetted());
+            currentParticipant.increaseChipsBetted(valueToBet);
+            currentParticipant.decreaseChipsNotBetted(valueToBet);
+            currentPot+=valueToBet;
+
         }else if(theAction.getTheActionString().equals("RAISE")){
             //Raise logic
+            currentParticipant.increaseChipsBetted(theAction.getRaiseValue());
+            currentParticipant.decreaseChipsNotBetted(theAction.getRaiseValue());
+            currentPot+=theAction.getRaiseValue();
+
+
+
         }else if(theAction.getTheActionString().equals("ALLIN")){
             //All in logic
+
         }else if(theAction.getTheActionString().equals("FOLD")){
             //Fold logic
+            currentParticipant.hasFolded=true;
+            actionHappened=true;
         }
     }
     /**
@@ -166,11 +202,19 @@ public class Dealer {
     private void setFirstBlinds(){
         Random r = new Random();
         int pos = r.nextInt(world.participants.size()-1)+1;
+
         smallBlind = world.participants.get(pos);
         smallBlind.increaseChipsBetted(smallBlindValue);
+        smallBlind.decreaseChipsNotBetted(smallBlindValue);
+
         bigBlind = smallBlind.getLeftParticipant();
         bigBlind.increaseChipsBetted(bigBlindValue);
+        bigBlind.decreaseChipsNotBetted(bigBlindValue);
 
+        smallBlind.setCallRequirement(bigBlindValue-smallBlindValue);
+        bigBlind.setCallRequirement(0);
+
+        currentPot+=(bigBlindValue+smallBlindValue);
     }
 
     /**
@@ -184,10 +228,11 @@ public class Dealer {
             preFlopTick();
         }
     }
+
     /*
     Getters and setters
      */
-    public int getCallRequirement(){
-        return callRequirement;
-    }
+    //public int getCallRequirement(){
+     //   return callRequirement;
+    //}
 }

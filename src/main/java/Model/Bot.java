@@ -16,63 +16,6 @@ public class Bot extends  Participant {
         this.positionOnTable=positionOnTable;
         setWidth(width);
         setHeight(height);
-        findBotPosition();
-
-    }
-
-    /**
-     * Calculates the rendering position for the bots
-     */
-    private void findBotPosition(){
-        int cardOnex;
-        int cardOney;
-        int cardTwox;
-        int cardTwoy;
-
-        int width = getWidth();
-        int height = getHeight();
-        if(positionOnTable==0){
-            setPositionOnTable("top");
-            cardOnex=width/2-50;
-            cardOney=height/30;
-
-            cardTwox=width/2-64;
-            cardTwoy=height/21;
-
-            setCardOnex(cardOnex);
-            setCardTwox(cardTwox);
-
-            setCardOney(cardOney);
-            setCardTwoy(cardTwoy);
-        }
-        else if(positionOnTable==1){
-            setPositionOnTable("right");
-            cardOnex=width-(width/5)+(width/100);
-            cardOney=height/3;
-
-            cardTwox=width-(width/5);
-            cardTwoy=height/3+12;
-
-            setCardOnex(cardOnex);
-            setCardTwox(cardTwox);
-
-            setCardOney(cardOney);
-            setCardTwoy(cardTwoy);
-        }
-        else{
-            setPositionOnTable("bottom");
-            cardOnex=width/2-50;
-            cardOney=height-(height/3)-10;
-
-            cardTwox=width/2-64;
-            cardTwoy=height-(height/3);
-
-            setCardOnex(cardOnex);
-            setCardTwox(cardTwox);
-
-            setCardOney(cardOney);
-            setCardTwoy(cardTwoy);
-        }
     }
 
     /**
@@ -81,7 +24,10 @@ public class Bot extends  Participant {
     @Override
     public Action tick(){
         //This setAction generates buggs, but is here for other debugging purposes.
-        if(getChipsNotBetted()>=getDealer().getCallRequirement()){
+        if(getChipsBetted()>=getCallRequirement()){
+            setAction(new Action("CHECK"));
+        }
+        else if(getChipsNotBetted()>=getCallRequirement()){
             setAction(new Action("CALL"));
             //increaseChipsBetted(getDealer().getCallRequirement());
         }else{

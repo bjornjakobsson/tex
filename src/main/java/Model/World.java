@@ -100,6 +100,9 @@ public class World {
     public void playerFold(){
         player.setAction(new Action("FOLD"));
     }
+    public void playerRaise(String ammount){
+        player.setAction(new Action("RAISE",Integer.parseInt(ammount)));
+    }
     public void playerAllIn(){
         player.setAction(new Action("ALLIN"));
     }
@@ -128,6 +131,9 @@ public class World {
         }
     }
 
+    /**
+     * Assigns render positions to the participants.
+     */
     private void setPositionOnTable(){
         //w1440, h900
         int i = 0;

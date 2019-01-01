@@ -133,7 +133,7 @@ public class GameView {
         raiseTextField = new JTextField("",width/120);
 
         clearLogPanelButton = new JButton("Clear");
-        loggTextArea = new JTextArea(5,25);
+        loggTextArea = new JTextArea(5,65);
         loggScrollPane = new JScrollPane(loggTextArea);
         fillerPanel.add(clearLogPanelButton);
         fillerPanel.add(loggScrollPane);
