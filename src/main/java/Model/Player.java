@@ -27,6 +27,7 @@ public class Player extends Participant {
      */
     @Override
     public Action tick(){
+        setCallRequirement(getDealer().getHighestRaise()-getChipsBetted());
         return getTheAction();
     }
     @Override

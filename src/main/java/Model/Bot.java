@@ -23,8 +23,11 @@ public class Bot extends  Participant {
      */
     @Override
     public Action tick(){
-        //This setAction generates buggs, but is here for other debugging purposes.
-        if(getChipsBetted()>=getCallRequirement()){
+
+        setCallRequirement(getDealer().getHighestRaise()-getChipsBetted());
+        System.out.println("My name is: "+getName()+" My call req is: "+getCallRequirement()+" The highest bet is: " +
+                " "+getDealer().getHighestRaise()+" I have betted: "+getChipsBetted());
+        if(getChipsBetted()>=getDealer().getHighestRaise()){
             setAction(new Action("CHECK"));
         }
         else if(getChipsNotBetted()>=getCallRequirement()){
@@ -33,6 +36,7 @@ public class Bot extends  Participant {
         }else{
             setAction(new Action("FOLD"));
         }
+        System.out.println("I choose to: "+getTheAction().getTheActionString());
         return getTheAction();
     }
 

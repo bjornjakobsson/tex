@@ -99,6 +99,8 @@ public class Dealer {
         setFirstBlinds();
         state="preflop";
         currentParticipant=bigBlind;
+        highestRaise=bigBlindValue;
+        System.out.println(bigBlindValue);
     }
 
     /**
@@ -128,7 +130,7 @@ public class Dealer {
                 errorMessage="Error: Can't call. Not enough money\n";
                 return false;
             }
-            if(currentParticipant.getChipsBetted()>=currentParticipant.getCallRequirement()){
+            if(currentParticipant.getChipsBetted()>=highestRaise){
                 errorMessage="Error: Can't call. You already meet the call requirement\n";
                 return false;
             }
@@ -165,7 +167,7 @@ public class Dealer {
             //Check logic
         }else if(theAction.getTheActionString().equals("CALL")){
             //Call logic
-            int valueToBet=(currentParticipant.getCallRequirement() -currentParticipant.getChipsBetted());
+            int valueToBet=(currentParticipant.getCallRequirement());
             currentParticipant.increaseChipsBetted(valueToBet);
             currentParticipant.decreaseChipsNotBetted(valueToBet);
             currentPot+=valueToBet;
@@ -232,6 +234,12 @@ public class Dealer {
     /*
     Getters and setters
      */
+    public int getHighestRaise(){
+        return highestRaise;
+    }
+    public void setHighestRaise(int val){
+        highestRaise=val;
+    }
     //public int getCallRequirement(){
      //   return callRequirement;
     //}
