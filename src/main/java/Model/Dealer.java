@@ -5,12 +5,18 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class Dealer {
+    /*
+    Varje satsningsrunda fortsätter tills alla spelare antingen har satsat lika mycket eller foldat
+    (om ingen betar är rundan över när alla spelare har checkat). När satsningsrundan är över börjar nästa
+     kortrunda/satsningsrunda, eller så är handen avslutad.
+     */
 
     private Participant bigBlind;
     private Participant smallBlind;
     private int bigBlindValue=2;
     private int smallBlindValue=1;
     private Participant currentParticipant;
+    private Participant latestRaiser;
 
     private boolean errorOccured = false;
     private boolean actionHappened = true;
@@ -18,6 +24,7 @@ public class Dealer {
     private String state="newgame";
     private String errorMessage="";
     private Action theAction = new Action();
+   // private boolean isBettingRoundOver = false;
 
     private int currentPot=0;
    // private int callRequirement=0;
@@ -50,8 +57,7 @@ public class Dealer {
     public void tick(){
         actionHappened=true;
         errorOccured=false;
-        //current/senaste höjningen? - chipsBetted
-       // currentParticipant.setCallRequirement();
+
         executeGameState(state);
 
         if(actionHappened){
@@ -71,6 +77,11 @@ public class Dealer {
     /**
      * Logic for what should happen pre flop
      */
+    /*
+    Varje satsningsrunda fortsätter tills alla spelare antingen har satsat lika mycket eller foldat
+    (om ingen betar är rundan över när alla spelare har checkat). När satsningsrundan är över börjar nästa
+     kortrunda/satsningsrunda, eller så är handen avslutad.
+     */
     public void preFlopTick(){
         if(currentParticipant.hasFolded){
             return;
@@ -83,6 +94,39 @@ public class Dealer {
         }
         else{
             executeAction();
+            currentParticipant.setHasActed(true);
+           /* if(!currentParticipant.getTheAction().getTheActionString().equals("RAISE")){
+                currentParticipant.setHasActed(true);
+            }*/
+        }
+
+        //Since the player cant respond as fast as the bots.
+        if(theAction.getTheActionString().equals("NONE")){
+            actionHappened=false;
+            return;
+        }
+        if(isBettingRoundOver()){
+            System.out.println("Preflop over, next state is flop");
+            resetHasActed();
+            state="flop";
+        }
+    }
+    public void flopTick(){
+        System.out.println("FLOP");
+        if(currentParticipant.hasFolded){
+            return;
+        }
+        theAction = currentParticipant.tick();
+        if(!isActionValid(theAction)){
+            actionHappened=false;
+            errorOccured=true;
+            return;
+        }
+        else{
+            executeAction();
+            if(!currentParticipant.getTheAction().getTheActionString().equals("RAISE")){
+                currentParticipant.setHasActed(true);
+            }
         }
 
         //Since the player cant respond as fast as the bots.
@@ -117,11 +161,13 @@ public class Dealer {
 
         else if(theAction.getTheActionString().equals("CHECK")){
             //Check validation logic
-            if(currentParticipant.getCallRequirement() > currentParticipant.getChipsBetted()){
+            if(highestRaise != currentParticipant.getChipsBetted()){
                 errorMessage="Error: Can't check. Not enough money in the pot "+
                         currentParticipant.getCallRequirement() + " is required\n";
                 return false;
             }
+            System.out.println("I am "+currentParticipant.getName()+ " my call req is: "+currentParticipant.getCallRequirement()+" " +
+                    " I have betted: "+ currentParticipant.getChipsBetted());
             return true;
 
         }else if(theAction.getTheActionString().equals("CALL")){
@@ -174,9 +220,15 @@ public class Dealer {
 
         }else if(theAction.getTheActionString().equals("RAISE")){
             //Raise logic
+            // Kan behöva modifieras?
+            // Kan big blind re-raisa ifall hen redan raisat?
             currentParticipant.increaseChipsBetted(theAction.getRaiseValue());
             currentParticipant.decreaseChipsNotBetted(theAction.getRaiseValue());
             currentPot+=theAction.getRaiseValue();
+            highestRaise=currentParticipant.getChipsBetted();
+            resetHasActed();
+            currentParticipant.setHasActed(false);
+            latestRaiser=currentParticipant;
 
 
 
@@ -228,9 +280,68 @@ public class Dealer {
         }
         else if(state.equals("preflop")) {
             preFlopTick();
+        }else if(state.equals("flop")){
+            flopTick();
         }
     }
 
+    /**
+     * Determines if a betting round is over.
+     * @return
+     */
+    private boolean isBettingRoundOver(){
+        if(hasAllParticipantsBettedTheSame()){
+            for (Participant p : world.participants) {
+                if(!p.hasFolded){
+                    if(!p.getHasActed()){
+                        return false;
+                    }
+                }
+            }
+        }else{
+            return false;
+        }
+        return true;
+    }
+    /**
+     * Checks if all active playing particpants(the ones that have not folded)
+     * have betted the same amount
+     * @return
+     */
+    private boolean hasAllParticipantsBettedTheSame(){
+        int first=world.participants.getFirst().getChipsBetted();
+        for (Participant p: world.participants) {
+            if(!p.hasFolded){
+                if(p.getChipsBetted()!=first){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if all participants has folded.
+     * @return
+     */
+    private boolean hasAllParticipantsFolded(){
+        for (Participant p: world.participants) {
+            if(!p.hasFolded){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Sets the hasActed boolean for each participants to false.
+     * Used when a new betting round starts.
+     */
+    private void resetHasActed(){
+        for (Participant p : world.participants) {
+            p.setHasActed(false);
+        }
+    }
     /*
     Getters and setters
      */
@@ -240,7 +351,8 @@ public class Dealer {
     public void setHighestRaise(int val){
         highestRaise=val;
     }
-    //public int getCallRequirement(){
-     //   return callRequirement;
-    //}
+    public String getState(){
+        return state;
+    }
+
 }

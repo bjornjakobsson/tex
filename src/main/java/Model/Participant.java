@@ -8,6 +8,7 @@ public abstract class Participant {
     private int chipsNotBetted=1000;
     private int chipsBetted=0;
     private int callRequirement=0;
+    private boolean hasActed = false;
 
     private int posAtTable;
     private String positionOnTable;
@@ -211,4 +212,12 @@ public abstract class Participant {
     public int getCallRequirement(){return callRequirement;}
 
     public void setCallRequirement(int val){ callRequirement=val;}
+
+    public void setHasActed(boolean val){
+        hasActed=val;
+    }
+
+    public boolean getHasActed(){
+        return hasActed;
+    }
 }
