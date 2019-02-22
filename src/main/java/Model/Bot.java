@@ -58,16 +58,21 @@ public class Bot extends  Participant {
     @Override
     public void render(Graphics g){
         // Borde kunna flytta allt detta till en metod i participant.
+        Card c1=getCardOne();
+        Card c2=getCardTwo();
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+       // System.out.println(c1.getImage().getWidth());
 
-        g.drawImage(getCardOne().getImage(),getCardOnex(),getCardOney(),null);
-        g.drawImage(getCardTwo().getImage(),getCardTwox(),getCardTwoy(),null);
+        g.drawImage(c1.getImage(),getCardOnex(),getCardOney(),Card.imgWidth,Card.imgHeight, null);
+        g.drawImage(c2.getImage(),getCardTwox(),getCardTwoy(),Card.imgWidth,Card.imgHeight, null);
 
-        g.drawString(Integer.toString(getChipsBetted()),getCardOnex()+80,getCardOney()+180);
+        g.drawString(Integer.toString(getChipsBetted()),getChipsBettedStringOffsetX(),getChipsBettedStringOffsetY());
 
-        g.drawString(Integer.toString(getChipsNotBetted()),getCardTwox()+110,getCardTwoy()+70);
+        g.drawString(Integer.toString(getChipsNotBetted()),getChipsNotBettedStringOffsetX(),getChipsNotBettedStringOffsetY());
+        g.drawImage(chipsImage,getChipsNotBettedStringOffsetX(),getChipsNotBettedStringOffsetY(),Card.imgWidth,Card.imgHeight,null);
 
-        g.drawString(getName(),getCardOnex()+20,getCardOney()-10);
+
+        g.drawString(getName(),getNameOffsetX(),getNameOffsetY());
 
        // g.drawRect(getDrawStartX(),getDrawStartY(),getDrawWidth(),getDrawHeight());
 

@@ -35,8 +35,8 @@ public class Player extends Participant {
         // Borde kunna flytta allt detta till en metod i participant.
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 
-        g.drawImage(getCardOne().getImage(),getCardOnex(),getCardOney(),null);
-        g.drawImage(getCardTwo().getImage(),getCardTwox(),getCardTwoy(),null);
+        g.drawImage(getCardOne().getImage(),getCardOnex(),getCardOney(),Card.imgWidth,Card.imgHeight, null);
+        g.drawImage(getCardTwo().getImage(),getCardTwox(),getCardTwoy(),Card.imgWidth,Card.imgHeight, null);
 
         g.drawString(Integer.toString(getChipsBetted()),getCardOnex()+80,getCardOney()+180);
         g.drawString(Integer.toString(getChipsNotBetted()),getCardTwox()+110,getCardTwoy()+70);
