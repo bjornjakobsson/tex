@@ -11,23 +11,37 @@ public class Card {
     private String color;
     private int value;
     private BufferedImage image;
+    private int scaleWidth;
+    private int scaleHeight;
+    public static int imgScale=2;
+    public static int imgWidth;
+    public static int imgHeight;
 
-    public Card(String name, String color, int value, BufferedImage image){
+    public Card(String name, String color, int value, BufferedImage image, int scaleWidth, int scaleHeight){
         this.name = name;
         this.color = color;
         this.value = value;
-
         this.image = image;
+        this.scaleWidth=scaleWidth;
+        this.scaleHeight=scaleHeight;
+
+        imgWidth=image.getWidth()/2;
+        imgHeight=image.getHeight()/2;
+
     }
 
 
     public static LinkedList<Card> getNewShuffeledDeck() throws IOException {
         LinkedList<Card> deck = new LinkedList<>();
-       // BufferedImage test = ImageIO.read(new File("/home/bjorn/IdeaProjects/Texas_holdem/src/main/resources/2.png"));
+
+
+
         BufferedImage img1 = ImageIO.read(Card.class.getResource("/test1.png"));
         BufferedImage cardback = ImageIO.read(Card.class.getResource("/cardback.png"));
-        Card cardOne = new Card("One", "void", 1, img1);
-        Card cardBack = new Card("Cardback", "void", 1, cardback);
+        Card cardOne = new Card("One", "void", 1, img1,cardback.getWidth()/imgScale,
+                cardback.getHeight()/imgScale);
+        Card cardBack = new Card("Cardback", "void", 1, cardback,cardback.getWidth()/imgScale,
+                cardback.getHeight()/imgScale);
         deck.add(cardBack);
         deck.add(cardOne);
 
@@ -70,4 +84,12 @@ public class Card {
     public BufferedImage getImage() {
         return image;
     }
+
+    public int getScaleWidth() { return scaleWidth;}
+
+    public void setScaleWidth(int val) {scaleWidth=val;}
+
+    public int getScaleHeight() {return scaleHeight;}
+
+    public void setScaleHeight(int val) {scaleHeight = val;}
 }

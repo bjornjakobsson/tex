@@ -2,6 +2,7 @@ package Model;
 
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public abstract class Participant {
 
@@ -32,8 +33,20 @@ public abstract class Participant {
     private int cardTwox;
     private int cardTwoy;
 
+    private int chipsNotBettedStringOffsetX;
+    private int chipsNotBettedStringOffsetY;
+
+    private int chipsBettedStringOffsetX;
+    private int chipsBettedStringOffsetY;
+
+    private int nameOffsetX;
+    private int nameOffsetY;
+
+
     private Card cardOne;
     private Card cardTwo;
+    public BufferedImage chipsImage;
+
 
     private int width;
     private int height;
@@ -50,6 +63,8 @@ public abstract class Participant {
     public void giveParticipantsCards(Card cardOne, Card cardTwo){
         this.cardOne = cardOne;
         this.cardTwo = cardTwo;
+        //this.chipsBettedStringOffset=cardOne.getImage().getWidth()
+
     }
 
     public void setAction(Action theAction){
@@ -219,5 +234,53 @@ public abstract class Participant {
 
     public boolean getHasActed(){
         return hasActed;
+    }
+
+    public int getChipsNotBettedStringOffsetX() {
+        return chipsNotBettedStringOffsetX;
+    }
+
+    public void setChipsNotBettedStringOffsetX(int chipsNotBettedStringOffset) {
+        this.chipsNotBettedStringOffsetX = chipsNotBettedStringOffset;
+    }
+
+    public int getChipsBettedStringOffsetX() {
+        return chipsBettedStringOffsetX;
+    }
+
+    public void setChipsBettedStringOffsetX(int chipsBettedStringOffset) {
+        this.chipsBettedStringOffsetX= chipsBettedStringOffset;
+    }
+
+    public int getChipsNotBettedStringOffsetY() {
+        return chipsNotBettedStringOffsetY;
+    }
+
+    public void setChipsNotBettedStringOffsetY(int chipsNotBettedStringOffsetY) {
+        this.chipsNotBettedStringOffsetY = chipsNotBettedStringOffsetY;
+    }
+
+    public int getChipsBettedStringOffsetY() {
+        return chipsBettedStringOffsetY;
+    }
+
+    public void setChipsBettedStringOffsetY(int chipsBettedStringOffsetY) {
+        this.chipsBettedStringOffsetY = chipsBettedStringOffsetY;
+    }
+
+    public int getNameOffsetX() {
+        return nameOffsetX;
+    }
+
+    public void setNameOffsetX(int nameOffset) {
+        this.nameOffsetX = nameOffset;
+    }
+
+    public int getNameOffsetY() {
+        return nameOffsetY;
+    }
+
+    public void setNameOffsetY(int nameOffset) {
+        this.nameOffsetY = nameOffset;
     }
 }

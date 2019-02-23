@@ -1,5 +1,6 @@
 package Model;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -39,8 +40,12 @@ public class World {
         setPositionOnTable();
 
         dealer = new Dealer(settings.getWidth(),settings.getHeight(),deck,this);
+        player.giveParticipantsCards(deck.get(1),deck.get(1));
+        Card c = player.getCardOne();
+
         for (Participant p: participants) {
             p.setDealer(dealer);
+            p.chipsImage=ImageIO.read(Card.class.getResource("/chips.jpg"));
         }
     }
     /**
@@ -63,11 +68,12 @@ public class World {
     /**
      * Adds all bots and the player to a list of all participants. Also generates names for everyone
      */
-    private void setUpParticipants(){
+    private void setUpParticipants() throws IOException{
         participants.addAll(bots);
         generateNames();
         giveNameToBots();
         participants.add(player);
+
         //setLeftParticipans();
     }
     /**
@@ -75,7 +81,7 @@ public class World {
      */
     private void setUpPlayer(){
         player = new Player(settings.getWidth(),settings.getHeight());
-        player.giveParticipantsCards(deck.get(1),deck.get(1));
+        // player.giveParticipantsCards(deck.get(1),deck.get(1));
         player.setPositionOnTable("player");
         player.setName("Player");
     }
@@ -162,12 +168,23 @@ public class World {
             if(i!=5){
                 p.setLeftParticipant(participants.get(i+1));
             }
-
             p.setCardOnex(p.getDrawStartX());
             p.setCardOney(p.getDrawStartY()+40);
 
-            p.setCardTwox(p.getCardOnex()+88);
-            p.setCardTwoy(p.getDrawStartY()+40);
+            p.setCardTwox(p.getCardOnex()+Card.imgWidth);
+            p.setCardTwoy(p.getCardOney());
+
+            p.setNameOffsetX(p.getCardOnex());
+            p.setNameOffsetY(p.getCardOney()-10);
+
+            p.setChipsNotBettedStringOffsetX(p.getCardOnex()+Card.imgWidth*2);
+            p.setChipsNotBettedStringOffsetY(p.getCardOney()+Card.imgHeight/2);
+
+            p.setChipsBettedStringOffsetX(p.getCardOnex()+Card.imgWidth/2);
+            p.setChipsBettedStringOffsetY(p.getCardOney()+Card.imgHeight+20);
+
+
+
             i++;
         }
     }
