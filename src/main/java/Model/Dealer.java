@@ -95,7 +95,8 @@ public class Dealer {
         else{
             executeAction();
             currentParticipant.setHasActed(true);
-           /* if(!currentParticipant.getTheAction().getTheActionString().equals("RAISE")){
+           /* THIS CODE LETS THE BIGBLIND RERAISE
+            if(!currentParticipant.getTheAction().getTheActionString().equals("RAISE")){
                 currentParticipant.setHasActed(true);
             }*/
         }
@@ -112,7 +113,7 @@ public class Dealer {
         }
     }
     public void flopTick(){
-        System.out.println("FLOP");
+      //  System.out.println("FLOP");
         if(currentParticipant.hasFolded){
             return;
         }
@@ -124,9 +125,6 @@ public class Dealer {
         }
         else{
             executeAction();
-            if(!currentParticipant.getTheAction().getTheActionString().equals("RAISE")){
-                currentParticipant.setHasActed(true);
-            }
         }
 
         //Since the player cant respond as fast as the bots.
@@ -134,8 +132,63 @@ public class Dealer {
             actionHappened=false;
             return;
         }
+        if(isBettingRoundOver()){
+            System.out.println("Flop over, next state is the turn");
+            resetHasActed();
+            state="turn";
+        }
     }
+    public void turnTick(){
+        //System.out.println("TURN TICK");
+        if(currentParticipant.hasFolded){
+            return;
+        }
+        theAction = currentParticipant.tick();
+        if(!isActionValid(theAction)){
+            actionHappened=false;
+            errorOccured=true;
+            return;
+        }
+        else{
+            executeAction();
+        }
 
+        //Since the player cant respond as fast as the bots.
+        if(theAction.getTheActionString().equals("NONE")){
+            actionHappened=false;
+            return;
+        }
+        if(isBettingRoundOver()){
+            System.out.println("Flop over, next state is the river");
+            resetHasActed();
+            state="river";
+        }
+    }
+    public void riverTick(){
+        if(currentParticipant.hasFolded){
+            return;
+        }
+        theAction = currentParticipant.tick();
+        if(!isActionValid(theAction)){
+            actionHappened=false;
+            errorOccured=true;
+            return;
+        }
+        else{
+            executeAction();
+        }
+
+        //Since the player cant respond as fast as the bots.
+        if(theAction.getTheActionString().equals("NONE")){
+            actionHappened=false;
+            return;
+        }
+        if(isBettingRoundOver()){
+            System.out.println("River betting round is over! Hand done");
+            resetHasActed();
+            state="none";
+        }
+    }
     /**
      * Logic for what happends when a new game starts.
      */
@@ -166,8 +219,8 @@ public class Dealer {
                         currentParticipant.getCallRequirement() + " is required\n";
                 return false;
             }
-            System.out.println("I am "+currentParticipant.getName()+ " my call req is: "+currentParticipant.getCallRequirement()+" " +
-                    " I have betted: "+ currentParticipant.getChipsBetted());
+           // System.out.println("I am "+currentParticipant.getName()+ " my call req is: "+currentParticipant.getCallRequirement()+" " +
+             //       " I have betted: "+ currentParticipant.getChipsBetted());
             return true;
 
         }else if(theAction.getTheActionString().equals("CALL")){
@@ -282,6 +335,10 @@ public class Dealer {
             preFlopTick();
         }else if(state.equals("flop")){
             flopTick();
+        }else if(state.equals("turn")){
+            turnTick();
+        }else if(state.equals("river")){
+            riverTick();
         }
     }
 

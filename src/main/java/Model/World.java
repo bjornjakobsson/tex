@@ -108,7 +108,7 @@ public class World {
     }
     public void playerRaise(String ammount){
         player.setAction(new Action("RAISE",Integer.parseInt(ammount)));
-        System.out.println("Player raises by: "+ Integer.parseInt(ammount));
+       // System.out.println("Player raises by: "+ Integer.parseInt(ammount));
         dealer.setHighestRaise(dealer.getHighestRaise()+Integer.parseInt(ammount));
     }
     public void playerAllIn(){
