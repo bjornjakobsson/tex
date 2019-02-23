@@ -26,19 +26,20 @@ public class Bot extends  Participant {
     public Action tick(){
 
         setCallRequirement(getDealer().getHighestRaise()-getChipsBetted());
-        System.out.println("My name is: "+getName()+" My call req is: "+getCallRequirement()+" The highest bet is: " +
-                " "+getDealer().getHighestRaise()+" I have betted: "+getChipsBetted());
+       // System.out.println("My name is: "+getName()+" My call req is: "+getCallRequirement()+" The highest bet is: " +
+         //      " "+getDealer().getHighestRaise()+" I have betted: "+getChipsBetted());
         if(getDealer().getState().equals("preflop") || getDealer().getState().equals("flop")){
             if(getChipsBetted()>=getDealer().getHighestRaise()){
+                setAction(new Action("CHECK"));
                 //setAction(new Action("RAISE",10));
-                Random r = new Random();
+              /*  Random r = new Random();
                 int prob = r.nextInt(2);
                 System.out.println(prob);
                 if(prob==0){
                     setAction(new Action("RAISE",10));
                 }else{
                     setAction(new Action("CHECK"));
-                }
+                }*/
             }
             else if(getChipsNotBetted()>=getCallRequirement()){
                 setAction(new Action("CALL"));
@@ -47,7 +48,7 @@ public class Bot extends  Participant {
                 setAction(new Action("FOLD"));
             }
         }
-        System.out.println("I choose to: "+getTheAction().getTheActionString());
+        //System.out.println("I choose to: "+getTheAction().getTheActionString());
         return getTheAction();
     }
 
